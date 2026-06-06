@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+
+    /* Cores */
+    --color-black: #000000;
+    --color-black-20: rgba(0, 0, 0, 0.20);
+    --color-black-10: rgba(0, 0, 0, 0.10);
+
+    --color-white: #FFFFFF;
+
+    --color-red-primary: #A80000;
+    --color-red-secondary: #EB3535;
+
+    /* Fontes */
+    --font-primary: 'Arimo', sans-serif;
+    --font-secondary: 'Poppins', sans-serif;
+}
