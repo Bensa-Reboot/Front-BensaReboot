@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Bensa StreetWear</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/checkout.css">
+  <link rel="stylesheet" href="../components/site-header/site-header.css">
+  <link rel="stylesheet" href="../components/site-footer/site-footer.css">
+  <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css">
+  <link rel="stylesheet" href="../components/search-overlay/search-overlay.css">
+
+</head>
+
+<body>
+  <site-header></site-header>
+  <search-overlay></search-overlay>
+  <cart-overlay></cart-overlay>
+
+  <main class="checkout-page">
+    <div class="checkout-container">
+      <h1 class="checkout-title">Finalizar Pedido</h1>
+
+      <div class="checkout-layout">
+
+        <!-- ─── Coluna esquerda: abas de entrega + pagamento ─── -->
+        <div class="checkout-forms">
+
+          <!-- Abas -->
+          <div class="checkout-tabs">
+            <button class="checkout-tab is-active" data-tab="delivery">
+              <span class="checkout-tab-num">1</span> Entrega
+            </button>
+            <button class="checkout-tab" data-tab="payment">
+              <span class="checkout-tab-num">2</span> Pagamento
+            </button>
+          </div>
+
+          <!-- Aba Entrega -->
+          <section class="checkout-tab-panel is-active" data-panel="delivery">
+            <form data-checkout-form novalidate>
+              <div class="checkout-field-row">
+                <div class="checkout-field">
+                  <label for="checkout-name">Nome completo</label>
+                  <input id="checkout-name" name="name" type="text" required>
+                </div>
+                <div class="checkout-field">
+                  <label for="checkout-email">E-mail</label>
+                  <input id="checkout-email" name="email" type="email" required readonly>
+                </div>
+              </div>
+
+              <div class="checkout-field-row">
+                <div class="checkout-field checkout-field--cep">
+                  <label for="checkout-cep">CEP</label>
+                  <div class="cep-input-group">
+                    <input id="checkout-cep" name="cep" type="text" placeholder="00000-000" maxlength="9" required>
+                    <button type="button" data-cep-search>Buscar</button>
+                  </div>
+                </div>
+                <div class="checkout-field">
+                  <label for="checkout-state">Estado</label>
+                  <input id="checkout-state" name="state" type="text" required maxlength="2">
+                </div>
+              </div>
+
+              <div class="checkout-field">
+                <label for="checkout-address">Endereço</label>
+                <input id="checkout-address" name="address" type="text" placeholder="Rua, Avenida..." required>
+              </div>
+
+              <div class="checkout-field-row">
+                <div class="checkout-field checkout-field--sm">
+                  <label for="checkout-number">Número</label>
+                  <input id="checkout-number" name="number" type="text" required>
+                </div>
+                <div class="checkout-field">
+                  <label for="checkout-complement">Complemento</label>
+                  <input id="checkout-complement" name="complement" type="text" placeholder="Opcional">
+                </div>
+              </div>
+
+              <div class="checkout-field-row">
+                <div class="checkout-field">
+                  <label for="checkout-neighborhood">Bairro</label>
+                  <input id="checkout-neighborhood" name="neighborhood" type="text" required>
+                </div>
+                <div class="checkout-field">
+                  <label for="checkout-city">Cidade</label>
+                  <input id="checkout-city" name="city" type="text" required>
+                </div>
+              </div>
+
+              <!-- Frete pré-calculado -->
+              <div class="checkout-shipping-info" data-shipping-info>
+                <p class="checkout-shipping-label">Método de entrega</p>
+                <div class="checkout-shipping-selected" data-shipping-selected>
+                  <span data-shipping-method-label>—</span>
+                  <strong data-shipping-price-label>—</strong>
+                </div>
+              </div>
+
+              <p class="error-message" data-error="delivery"></p>
+
+              <button class="btn-next-tab" type="button" data-next-tab="payment">
+                Continuar para Pagamento →
+              </button>
+            </form>
+          </section>
+
+          <!-- Aba Pagamento -->
+          <section class="checkout-tab-panel" data-panel="payment">
+            <form data-payment-form novalidate>
+              <p class="checkout-section-label">Cartão de crédito</p>
+
+              <div class="checkout-field">
+                <label for="card-number">Número do cartão</label>
+                <input id="card-number" name="card_number" type="text" placeholder="0000 0000 0000 0000" maxlength="19"
+                  autocomplete="cc-number">
+              </div>
+
+              <div class="checkout-field">
+                <label for="card-name">Nome no cartão</label>
+                <input id="card-name" name="card_name" type="text" placeholder="Como escrito no cartão"
+                  autocomplete="cc-name">
+              </div>
+
+              <div class="checkout-field-row">
+                <div class="checkout-field">
+                  <label for="card-expiry">Validade</label>
+                  <input id="card-expiry" name="card_expiry" type="text" placeholder="MM/AA" maxlength="5"
+                    autocomplete="cc-exp">
+                </div>
+                <div class="checkout-field checkout-field--sm">
+                  <label for="card-cvv">CVV</label>
+                  <input id="card-cvv" name="card_cvv" type="text" placeholder="000" maxlength="3"
+                    autocomplete="cc-csc">
+                </div>
+                <div class="checkout-field checkout-field--sm">
+                  <label for="card-installments">Parcelas</label>
+                  <select id="card-installments" name="card_installments">
+                    <option value="1">1x sem juros</option>
+                    <option value="2">2x sem juros</option>
+                    <option value="3">3x sem juros</option>
+                    <option value="6">6x sem juros</option>
+                    <option value="12">12x com juros</option>
+                  </select>
+                </div>
+              </div>
+
+              <p class="error-message" data-error="payment"></p>
+
+              <button class="btn-finalizar" type="submit">Finalizar Pedido</button>
+            </form>
+          </section>
+
+        </div>
+
+        <!-- ─── Coluna direita: resumo ─── -->
+        <aside class="checkout-summary">
+          <h2>Resumo do Pedido</h2>
+          <div class="checkout-items" data-checkout-items></div>
+          <div class="checkout-totals">
+            <div class="checkout-row">
+              <span>Subtotal</span>
+              <span data-checkout-subtotal>R$ 0,00</span>
+            </div>
+            <div class="checkout-row">
+              <span>Frete</span>
+              <span data-checkout-shipping>—</span>
+            </div>
+            <div class="checkout-row checkout-total-row">
+              <span>Total</span>
+              <strong data-checkout-total>R$ 0,00</strong>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script type="module" src="../main.js"></script>
+  <script type="module">
+    // ─── Auth ─────────────────────────────────────────────────
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (!isLoggedIn || !user?.email) {
+      window.location.href = 'login.html?redirect=checkout';
+    }
+
+    // ─── Dados do carrinho e frete ────────────────────────────
+    const savedCart = sessionStorage.getItem('checkoutCart');
+    const savedShipping = sessionStorage.getItem('checkoutShipping');
+    const cartItems = savedCart ? JSON.parse(savedCart) : [];
+    const shippingData = savedShipping ? JSON.parse(savedShipping) : null;
+
+    if (cartItems.length === 0) {
+      window.location.href = 'categoria.html?tipo=calcados';
+    }
+
+    // ─── Resumo ───────────────────────────────────────────────
+    const itemsEl = document.querySelector('[data-checkout-items]');
+    const subtotalEl = document.querySelector('[data-checkout-subtotal]');
+    const shippingEl = document.querySelector('[data-checkout-shipping]');
+    const totalEl = document.querySelector('[data-checkout-total]');
+
+    function renderSummary() {
+      const subtotal = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const shippingCost = shippingData?.price ?? 0;
+      const total = subtotal + shippingCost;
+
+      itemsEl.innerHTML = cartItems.map(item => `
+    <div class="checkout-item">
+      <img src="${item.image}" alt="${item.title}">
+      <div class="checkout-item-info">
+        <p class="checkout-item-title">${item.title}</p>
+        <p class="checkout-item-size">Tamanho: ${item.size} · Qtd: ${item.qty}</p>
+      </div>
+      <strong class="checkout-item-price">${window.formatPrice(item.price * item.qty)}</strong>
+    </div>
+  `).join('');
+
+      subtotalEl.textContent = window.formatPrice(subtotal);  // ← corrigido
+      shippingEl.textContent = shippingData?.price === 0
+        ? 'R$ 0,00'
+        : window.formatPrice(shippingCost);
+      totalEl.textContent = window.formatPrice(total);
+    }
+    renderSummary();
+
+    // ─── Preencher dados do usuário ───────────────────────────
+    // BUG 6 CORRIGIDO: fallback para usuários sem campo name (cadastros antigos)
+    document.getElementById('checkout-name').value = user.name || user.email.split('@')[0];
+    document.getElementById('checkout-email').value = user.email;
+    document.getElementById('checkout-state').value = user.state || '';
+    document.getElementById('checkout-address').value = user.address || '';
+    document.getElementById('checkout-neighborhood').value = user.neighborhood || '';
+    document.getElementById('checkout-city').value = user.city || '';
+
+    // CEP e frete pré-preenchidos do carrinho
+    const cepInput = document.getElementById('checkout-cep');
+    if (shippingData?.cep) {
+      const c = shippingData.cep.replace(/\D/g, '');
+      cepInput.value = c.length === 8 ? c.slice(0, 5) + '-' + c.slice(5) : shippingData.cep;
+    } else if (user.cep) {
+      cepInput.value = user.cep;
+    }
+
+    // Exibir método de frete selecionado
+    if (shippingData) {
+      document.querySelector('[data-shipping-method-label]').textContent = shippingData.label;
+      document.querySelector('[data-shipping-price-label]').textContent =
+        window.formatPrice(shippingData.price ?? 0);
+    }
+
+    // ─── Busca de CEP ─────────────────────────────────────────
+    const addressInput = document.getElementById('checkout-address');
+    const neighborhoodInput = document.getElementById('checkout-neighborhood');
+    const cityInput = document.getElementById('checkout-city');
+    const stateInput = document.getElementById('checkout-state');
+    const cepSearchBtn = document.querySelector('[data-cep-search]');
+
+    cepInput.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5, 8);
+      e.target.value = v;
+    });
+
+    async function buscarCep() {
+      const cep = cepInput.value.replace(/\D/g, '');
+      if (cep.length !== 8) return;
+      try {
+        const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await res.json();
+        if (!data.erro) {
+          addressInput.value = data.logradouro || '';
+          neighborhoodInput.value = data.bairro || '';
+          cityInput.value = data.localidade || '';
+          stateInput.value = data.uf || '';
+        }
+      } catch { }
+    }
+    cepSearchBtn.addEventListener('click', buscarCep);
+    cepInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); buscarCep(); }
+    });
+
+    // ─── Máscara de cartão ────────────────────────────────────
+    document.getElementById('card-number').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 16);
+      e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+    });
+    document.getElementById('card-expiry').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+      if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+      e.target.value = v;
+    });
+    document.getElementById('card-cvv').addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    });
+
+    // ─── Navegação entre abas ─────────────────────────────────
+    document.querySelectorAll('[data-tab]').forEach(tab => {
+      tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    });
+
+    document.querySelectorAll('[data-next-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const errorEl = document.querySelector('[data-error="delivery"]');
+        const name = document.getElementById('checkout-name').value.trim();
+        const cep = cepInput.value.replace(/\D/g, '');
+        const address = addressInput.value.trim();
+        const number = document.getElementById('checkout-number').value.trim();
+
+        if (!name || !cep || !address || !number) {
+          errorEl.textContent = 'Preencha os campos obrigatórios antes de continuar.';
+          errorEl.classList.add('is-visible');
+          return;
+        }
+        errorEl.textContent = '';
+        errorEl.classList.remove('is-visible');
+        switchTab(btn.dataset.nextTab);
+      });
+    });
+
+    function switchTab(name) {
+      document.querySelectorAll('[data-tab]').forEach(t => t.classList.toggle('is-active', t.dataset.tab === name));
+      document.querySelectorAll('[data-panel]').forEach(p => p.classList.toggle('is-active', p.dataset.panel === name));
+    }
+
+    // ─── Finalizar pedido ─────────────────────────────────────
+    const paymentForm = document.querySelector('[data-payment-form]');
+    paymentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const errorEl = paymentForm.querySelector('[data-error="payment"]');
+
+      const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+      const cardName = document.getElementById('card-name').value.trim();
+      const cardExpiry = document.getElementById('card-expiry').value.trim();
+      const cardCvv = document.getElementById('card-cvv').value.trim();
+
+      if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+        errorEl.textContent = 'Preencha todos os dados do cartão.';
+        errorEl.classList.add('is-visible');
+        return;
+      }
+      if (cardNumber.length < 16) {
+        errorEl.textContent = 'Número do cartão inválido.';
+        errorEl.classList.add('is-visible');
+        return;
+      }
+
+      // Montar pedido
+      const subtotal = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const shippingCost = shippingData?.price ?? 0;
+      const cep = cepInput.value.replace(/\D/g, '');
+
+      const order = {
+        id: Date.now().toString(36).toUpperCase(),
+        date: new Date().toISOString(),
+        items: [...cartItems],
+        subtotal,
+        shipping: shippingData?.label || 'Grátis',
+        shippingCost,
+        total: subtotal + shippingCost,
+        status: 'Confirmado',
+        address: {
+
+          cep,
+          address: addressInput.value.trim(),
+          number: document.getElementById('checkout-number').value.trim(),
+          complement: document.getElementById('checkout-complement').value.trim(),
+          neighborhood: neighborhoodInput.value.trim(),
+          city: cityInput.value.trim(),
+          state: stateInput.value.trim(),
+        }
+      };
+
+      // Salvar pedido no usuário
+      const updatedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      updatedUser.orders = [...(updatedUser.orders || []), order];
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+      // Sincronizar lista de usuários
+      const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      const idx = users.findIndex(u => u.email === user.email);
+      if (idx !== -1) { users[idx] = updatedUser; localStorage.setItem('registeredUsers', JSON.stringify(users)); }
+
+      // Limpar carrinho
+      if (window.cartState) window.cartState.items = [];
+      document.dispatchEvent(new CustomEvent('cart:updated'));
+      sessionStorage.removeItem('checkoutCart');
+      sessionStorage.removeItem('checkoutShipping');
+
+      // Feedback
+      errorEl.textContent = '✓ Pedido finalizado! Redirecionando...';
+      errorEl.style.color = 'var(--color-green)';
+      errorEl.classList.add('is-visible');
+      setTimeout(() => { window.location.href = 'perfil.html'; }, 2000);
+    });
+  </script>
+</body>
+
+</html>
