@@ -1,0 +1,398 @@
+.checkout-page {
+    padding: 56px 0 100px;
+    background: var(--color-soft);
+    min-height: 100vh;
+}
+
+.checkout-container {
+    width: min(var(--container), calc(100% - var(--gutter) * 2));
+    margin: 0 auto;
+}
+
+.checkout-title {
+    margin: 0 0 40px;
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-black);
+}
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Abas do fluxo de checkout: controle visual e estado ativo para transição entre etapas */
+.checkout-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--color-line);
+}
+
+.checkout-tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color .2s ease, border-color .2s ease;
+}
+
+.checkout-tab.is-active {
+    color: var(--color-black);
+    border-bottom-color: var(--color-red);
+}
+
+.checkout-tab-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--color-line);
+    color: var(--color-muted);
+    font-size: 13px;
+    font-weight: 900;
+    display: grid;
+    place-items: center;
+    transition: background .2s ease, color .2s ease;
+}
+
+.checkout-tab.is-active .checkout-tab-num {
+    background: var(--color-red);
+    color: var(--color-white);
+}
+
+/* Painéis: cada painel corresponde a uma etapa (Entrega / Pagamento) e é alternado via JS. */
+.checkout-tab-panel {
+    display: none;
+}
+
+.checkout-tab-panel.is-active {
+    display: block;
+}
+
+/* Estilos de formulário: inputs, grupos de CEP e foco — projetado para acessibilidade básica */
+.checkout-forms {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: 36px 40px 40px;
+    box-shadow: var(--shadow-card);
+}
+
+.checkout-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.checkout-field label {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-black);
+}
+
+.checkout-field input,
+.checkout-field select {
+    height: 52px;
+    padding: 0 16px;
+    border: 1.5px solid var(--color-line);
+    border-radius: 6px;
+    font-size: 15px;
+    color: var(--color-black);
+    background: var(--color-white);
+    transition: border-color .2s ease;
+}
+
+.checkout-field input:focus,
+.checkout-field select:focus {
+    outline: none;
+    border-color: var(--color-red);
+}
+
+.checkout-field input[readonly] {
+    background: var(--color-soft);
+    color: var(--color-muted);
+}
+
+.checkout-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.checkout-field--sm {
+    max-width: 160px;
+}
+
+.checkout-field--cep .cep-input-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    border: 1.5px solid var(--color-line);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color .2s ease;
+    align-items: stretch;
+    height: 52px;
+}
+
+.checkout-field--cep .cep-input-group:focus-within {
+    border-color: var(--color-red);
+}
+
+.checkout-field--cep .cep-input-group input {
+    height: 52px;
+    border: none;
+    padding: 0 16px;
+    font-size: 15px;
+    background: var(--color-white);
+    outline: none;
+}
+
+.checkout-field--cep .cep-input-group button {
+    width: auto;
+    min-width: 90px;
+    height: 52px;
+    border: none;
+    border-left: 1.5px solid var(--color-line);
+    background: var(--color-white);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--color-black);
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    outline: none;
+}
+
+.checkout-field--cep .cep-input-group button:focus {
+    outline: none;
+}
+
+/* Foco visual do input de CEP (evita outline nativo e aplica borda de destaque) */
+ .checkout-field--cep .cep-input-group input:focus {
+    outline: none;
+    border-color: var(--color-red);
+}
+
+
+.checkout-field--cep .cep-input-group button:hover {
+    background: var(--color-soft);
+    color: var(--color-black);
+}
+
+/* Caixa que exibe o método de frete selecionado — atualizada via JS a partir do fluxo de checkout */
+.checkout-shipping-info {
+    background: var(--color-soft);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+}
+
+.checkout-shipping-label {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-muted);
+}
+
+.checkout-shipping-selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.checkout-shipping-selected strong {
+    color: var(--color-red);
+    font-weight: 800;
+}
+
+/* Rótulo e agrupamento de métodos de pagamento (cartão) */
+.checkout-section-label {
+    margin: 0 0 24px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-muted);
+}
+
+/* Estilos para botões principales do fluxo: continuar e finalizar com estados hover */
+.btn-next-tab {
+    width: 100%;
+    height: 56px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+    margin-top: 8px;
+}
+
+.btn-next-tab:hover {
+    background: var(--color-red);
+    transform: translateY(-2px);
+}
+
+.btn-finalizar {
+    width: 100%;
+    height: 60px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--color-red);
+    color: var(--color-white);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+    margin-top: 8px;
+}
+
+.btn-finalizar:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-2px);
+}
+
+/* Painel de resumo lateral: sticky em desktop, contém subtotal/frete/total */
+.checkout-summary {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--shadow-card);
+    position: sticky;
+    top: 120px;
+}
+
+.checkout-summary h2 {
+    margin: 0 0 24px;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-black);
+}
+
+.checkout-item {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.checkout-item img {
+    width: 72px;
+    height: 54px;
+    object-fit: contain;
+}
+
+.checkout-item-title {
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-black);
+    line-height: 1.3;
+}
+
+.checkout-item-size {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.checkout-item-price {
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.checkout-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.checkout-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.checkout-total-row {
+    padding-top: 12px;
+    border-top: 2px solid var(--color-black);
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--color-black);
+}
+
+/* Ajustes responsivos do layout de checkout para telas menores */
+@media (max-width: 1024px) {
+    .checkout-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-summary {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-forms {
+        padding: 24px 20px;
+    }
+
+    .checkout-field-row {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-field--sm {
+        max-width: 100%;
+    }
+
+    .checkout-tabs {
+        gap: 0;
+    }
+
+    .checkout-tab {
+        flex: 1;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 12px;
+    }
+}

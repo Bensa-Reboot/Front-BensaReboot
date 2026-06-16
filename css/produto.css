@@ -1,0 +1,294 @@
+.product-page {
+  padding: 40px 0 128px;
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(440px, .9fr);
+  gap: 92px;
+  align-items: start;
+}
+
+.product-gallery {
+  min-height: 680px;
+  display: grid;
+  place-items: center;
+}
+
+.product-gallery img {
+  width: 100%;
+  max-width: 650px;
+  object-fit: contain;
+}
+
+.product-info {
+  padding: 20px 0px 0 0;
+  min-width: 0;
+  max-width: none;
+  width: 100%;
+}
+
+.product-info h1 {
+  margin: 0 0 28px;
+  color: var(--color-black);
+  font-size: 44px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-family: 'Arimo', sans-serif;
+}
+
+.detail-price {
+  margin: 0 0 20px;
+  color: var(--color-black);
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.installments,
+.shipping-note {
+  margin: 0 0 24px;
+  color: var(--color-red-soft);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.shipping-note {
+  max-width: 610px;
+  margin-bottom: 36px;
+}
+
+.size-field {
+  padding: 0;
+  margin: 0 0 36px;
+  border: 0;
+}
+
+.size-field legend {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.size-options {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.size-options button {
+  width: 76px;
+  height: 76px;
+  border: 2px solid var(--color-text);
+  border-radius: 8px;
+  color: var(--color-black);
+  background: var(--color-white);
+  font-size: 20px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.size-options button.is-active,
+.size-options button:hover {
+  color: var(--color-white);
+  border-color: var(--color-red);
+  background: var(--color-red);
+}
+
+.buy-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+  gap: 26px;
+  margin-bottom: 20px;
+  min-width: 0;
+  width: 100%;
+}
+
+.quantity-control {
+  height: 74px;
+  border: 2px solid var(--color-red);
+  min-width: 0;
+  max-width: 220px;
+  width: 100%;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  color: var(--color-red);
+}
+
+.quantity-control button {
+  height: 100%;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font-size: 28px;
+}
+
+.quantity-control span {
+  text-align: center;
+  color: var(--color-black);
+  font-size: 28px;
+}
+
+.buy-button,
+.favorite-wide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 74px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.buy-button {
+  border: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  padding: 0 30px;
+  color: var(--color-white);
+  background: var(--color-red);
+  transition: background .2s ease, transform .2s ease;
+}
+
+.buy-button:hover {
+  background: #920000;
+  transform: translateY(-2px);
+}
+
+.favorite-wide {
+  width: 100%;
+  max-width: none;
+  padding: 0 28px;
+  border: 2px solid var(--color-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: var(--color-red);
+  background: var(--color-white);
+}
+
+.favorite-wide svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.favorite-wide.is-active svg {
+  fill: currentColor;
+}
+
+.brand-text-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--color-black);
+}
+
+.product-info .breadcrumb {
+  font-family: 'Arimo', sans-serif;
+}
+
+.product-info .detail-price,
+.product-info .installments,
+.product-info .shipping-note,
+.product-info .size-field,
+.product-info .buy-button,
+.product-info .favorite-wide,
+.product-info .quantity-control {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Media queries do produto: ajustam layout e espaçamento em larguras menores. */
+@media (max-width: 1200px) {
+  .product-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+    gap: 32px;
+  }
+
+  .product-info {
+    padding: 40px 16px 0 0;
+    min-width: 0;
+  }
+
+  .buy-row {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .quantity-control {
+    flex: 0 0 320px;
+    min-width: 0;
+  }
+
+  .buy-button {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+
+  .favorite-wide {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-detail {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .product-gallery {
+    min-height: 500px;
+  }
+
+  .product-info {
+    padding-right: 48px;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-page {
+    padding-top: 56px;
+  }
+
+  .product-info h1 {
+    font-size: 32px;
+    margin-bottom: 34px;
+  }
+
+  .installments,
+  .shipping-note {
+    font-size: 18px;
+  }
+
+  .shipping-note,
+  .size-field {
+    margin-bottom: 42px;
+  }
+
+  .buy-row {
+    grid-template-columns: 1fr;
+  }
+}

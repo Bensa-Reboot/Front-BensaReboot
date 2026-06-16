@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil | Bensa StreetWear</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../components/site-header/site-header.css">
+  <link rel="stylesheet" href="../components/site-footer/site-footer.css">
+  <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css">
+  <link rel="stylesheet" href="../components/search-overlay/search-overlay.css">
+  <link rel="stylesheet" href="../css/perfil.css">
+</head>
+
+<body>
+  <site-header></site-header>
+  <search-overlay></search-overlay>
+  <cart-overlay></cart-overlay>
+
+  <main class="profile-page">
+    <section class="profile-container">
+      <aside class="profile-sidebar">
+        <div class="profile-card">
+          <h2>Olá, <span data-user-name>Usuário</span>!</h2>
+          <p class="profile-email" data-user-email></p>
+        </div>
+
+        <nav class="profile-nav">
+          <button type="button" data-nav-btn="info" class="nav-btn is-active">Informações</button>
+          <button type="button" data-nav-btn="favorites" class="nav-btn">Favoritos</button>
+          <button type="button" data-nav-btn="orders" class="nav-btn">Histórico de Pedidos</button>
+          <button class="profile-logout" type="button" data-logout>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
+            </svg>
+            Sair
+          </button>
+        </nav>
+      </aside>
+
+      <section class="profile-content">
+
+           <!-- Painel de informações pessoais: exibe campos do `currentUser` e atualiza os dados via modal. -->
+        <div class="profile-tab is-active" data-tab="info">
+          <h3>Informações Pessoais</h3>
+          <div class="profile-info-grid">
+            <div><label>E-mail</label>
+              <p data-info="email">-</p>
+            </div>
+            <div><label>CEP</label>
+              <p data-info="cep">-</p>
+            </div>
+            <div><label>Endereço</label>
+              <p data-info="address">-</p>
+            </div>
+            <div><label>Data de Cadastro</label>
+              <p data-info="createdAt">-</p>
+            </div>
+          </div>
+          <button class="edit-btn" type="button" data-edit-profile>Editar Perfil</button>
+        </div>
+
+        <!-- Painel de favoritos: renderiza `user.favorites` e persiste remoções em localStorage. -->
+        <div class="profile-tab" data-tab="favorites">
+          <h3>Meus Favoritos</h3>
+          <div class="favorites-grid" data-favorites-list></div>
+        </div>
+
+        <!-- Painel de histórico de pedidos: renderiza `user.orders` com links para a página detalhada. -->
+        <div class="profile-tab" data-tab="orders">
+          <h3>Histórico de Pedidos</h3>
+          <div class="orders-list" data-orders-list></div>
+        </div>
+
+      </section>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script type="module" src="../main.js"></script>
+  <script type="module">
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (!isLoggedIn || !user?.email) { window.location.href = 'login.html'; }
+
+    const userName = user.name || user.email.split('@')[0];
+    document.querySelector('[data-user-name]').textContent = userName;
+    document.querySelector('[data-user-email]').textContent = user.email;
+
+    document.querySelector('[data-info="email"]').textContent = user.email;
+    document.querySelector('[data-info="cep"]').textContent = user.cep || '-';
+    document.querySelector('[data-info="address"]').textContent = user.address || '-';
+
+    if (user.createdAt) {
+      document.querySelector('[data-info="createdAt"]').textContent =
+        new Date(user.createdAt).toLocaleDateString('pt-BR');
+    }
+
+    // Renderiza favoritos do usuário e gerencia remoção (persiste em localStorage)
+    const favList = document.querySelector('[data-favorites-list]');
+    const favs = user.favorites ?? [];
+
+    if (favs.length === 0) {
+      favList.classList.add('is-empty');
+      favList.innerHTML = `
+        <div class="empty-state">
+          <p>Você ainda não tem favoritos.<br>Comece a adicionar!</p>
+          <a href="categoria.html?tipo=calcados" class="btn-ver-produtos">Ver Produtos</a>
+        </div>`;
+    } else {
+      favList.classList.remove('is-empty');
+      favList.innerHTML = favs.map(fav => `
+        <div class="favorite-item" data-fav-id="${fav.id}">
+          <a href="produto.html?id=${fav.id}">
+            <img src="${fav.image}" alt="${fav.title}">
+          </a>
+          <h4><a href="produto.html?id=${fav.id}">${fav.title}</a></h4>
+         <p>${window.formatPrice(fav.price)}</p>
+
+          <div class="fav-actions">
+            <button type="button" class="bag-button"
+              data-add-to-cart
+              data-product='${JSON.stringify({ id: fav.id, title: fav.title, price: fav.price, image: fav.image, size: 'Único' })}'>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 7h12l1 14H5L6 7ZM9 7a3 3 0 0 1 6 0"/></svg>
+              Adicionar
+            </button>
+            <button type="button" class="fav-remove-btn" data-remove-fav="${fav.id}" aria-label="Remover dos favoritos">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
+          </div>
+        </div>`).join('');
+    }
+
+    favList.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-remove-fav]');
+      if (!btn) return;
+      const id = btn.dataset.removeFav;
+      const updated = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      updated.favorites = (updated.favorites ?? []).filter(f => f.id !== id);
+      localStorage.setItem('currentUser', JSON.stringify(updated));
+      const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      const idx = users.findIndex(u => u.email === updated.email);
+      if (idx !== -1) { users[idx] = updated; localStorage.setItem('registeredUsers', JSON.stringify(users)); }
+      document.querySelector(`[data-fav-id="${id}"]`)?.remove();
+      if (!favList.querySelector('.favorite-item')) {
+        favList.classList.add('is-empty');
+        favList.innerHTML = `
+          <div class="empty-state">
+            <p>Você ainda não tem favoritos.<br>Comece a adicionar!</p>
+            <a href="categoria.html?tipo=calcados" class="btn-ver-produtos">Ver Produtos</a>
+          </div>`;
+      }
+    });
+
+    // Renderiza histórico de pedidos. Detecta ausência e exibe estado vazio.
+    const ordersList = document.querySelector('[data-orders-list]');
+    const orders = user.orders ?? [];
+
+    if (orders.length === 0) {
+      ordersList.innerHTML = `<p class="empty-state">Você ainda não realizou nenhum pedido.</p>`;
+    } else {
+      ordersList.innerHTML = orders.map(order => `
+  <a href="pedido.html?id=${order.id}" class="order-item">
+    <div class="order-header">
+      <p class="order-id">Pedido #${order.id}</p>
+      <p class="order-date">${new Date(order.date).toLocaleDateString('pt-BR')}</p>
+    </div>
+    <div class="order-details">
+      <p><strong>Itens:</strong> ${order.items.length}</p>
+      <p><strong>Total:</strong> ${window.formatPrice(order.total)}</p>
+      <p><strong>Status:</strong> <span class="order-status">${order.status}</span></p>
+    </div>
+  </a>
+`).join('');
+    }
+
+    // Handlers de navegação das abas do perfil (info, favoritos, pedidos)
+    document.querySelectorAll('[data-nav-btn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.navBtn;
+        document.querySelectorAll('[data-nav-btn]').forEach(b => b.classList.remove('is-active'));
+        document.querySelectorAll('[data-tab]').forEach(t => t.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        document.querySelector(`[data-tab="${tab}"]`)?.classList.add('is-active');
+      });
+    });
+
+    document.querySelector('[data-logout]').addEventListener('click', () => {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    });
+
+    document.querySelector('[data-edit-profile]').addEventListener('click', () => {
+      // Cria modal de edição de perfil (DOM dinâmico, sem biblioteca)
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.setAttribute('data-modal-overlay', '');
+
+      const modal = document.createElement('div');
+      modal.className = 'modal-content';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.setAttribute('aria-labelledby', 'modal-title');
+
+      // Preencher com o HTML do formulário
+      const current = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      modal.innerHTML = `
+    <h2 id="modal-title">Editar Perfil</h2>
+    <form data-edit-form novalidate>
+      <label for="edit-cep">CEP</label>
+      <div class="cep-input-group">
+        <input id="edit-cep" name="cep" type="text" placeholder="00000-000" maxlength="9" value="${current.cep || ''}" required>
+        <button type="button" data-cep-search aria-label="Buscar CEP">Buscar</button>
+      </div>
+      <p class="error-message" data-error="cep"></p>
+
+      <label for="edit-address">Endereço</label>
+      <input id="edit-address" name="address" type="text" placeholder="Rua, Avenida..." value="${current.address || ''}">
+
+      <label for="edit-neighborhood">Bairro</label>
+      <input id="edit-neighborhood" name="neighborhood" type="text" placeholder="Bairro" value="${current.neighborhood || ''}">
+
+      <label for="edit-city">Cidade</label>
+      <input id="edit-city" name="city" type="text" placeholder="Cidade" value="${current.city || ''}">
+
+      <label for="edit-new-password">Nova senha (opcional)</label>
+      <input id="edit-new-password" name="new-password" type="password" placeholder="Deixe em branco para manter a atual">
+      <p class="error-message" data-error="new-password"></p>
+
+      <label for="edit-confirm-password">Confirmar nova senha</label>
+      <input id="edit-confirm-password" name="confirm-password" type="password" placeholder="Confirme a nova senha">
+      <p class="error-message" data-error="confirm-password"></p>
+
+      <p class="error-message" data-error="general"></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" data-cancel>Cancelar</button>
+        <button type="submit" class="btn-save">Salvar</button>
+      </div>
+    </form>
+  `;
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Eventos de fechamento do modal (overlay click, botão cancelar, Escape)
+      const closeModal = () => {
+        overlay.remove();
+        document.body.classList.remove('no-scroll');
+      };
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+      });
+
+      modal.querySelector('[data-cancel]').addEventListener('click', closeModal);
+
+      document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+          closeModal();
+          document.removeEventListener('keydown', escHandler);
+        }
+      });
+
+      // Busca de CEP dentro do modal — valida e mostra mensagens de erro no modal
+      const cepInput = modal.querySelector('#edit-cep');
+      const addressInput = modal.querySelector('#edit-address');
+      const searchBtn = modal.querySelector('[data-cep-search]');
+
+      // Formatar CEP enquanto digita
+      cepInput.addEventListener('input', (e) => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5, 8);
+        e.target.value = v;
+      });
+
+      const buscarCep = async () => {
+        const cepEl = modal.querySelector('[data-error="cep"]');
+        cepEl.textContent = '';
+        cepEl.classList.remove('is-visible');
+
+        const cep = cepInput.value.replace(/\D/g, '');
+        if (cep.length !== 8) {
+          cepEl.textContent = 'CEP deve ter 8 dígitos.';
+          cepEl.classList.add('is-visible');
+          return;
+        }
+
+        try {
+          const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+          const data = await res.json();
+          if (data.erro) {
+            cepEl.textContent = 'CEP não encontrado.';
+            cepEl.classList.add('is-visible');
+            return;
+          }
+          addressInput.value = data.logradouro || '';
+        } catch {
+          cepEl.textContent = 'Erro ao buscar CEP.';
+          cepEl.classList.add('is-visible');
+        }
+      };
+
+      searchBtn.addEventListener('click', buscarCep);
+      cepInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          buscarCep();
+        }
+      });
+
+      // Submissão do formulário de edição: validações, persistência e feedback
+      const form = modal.querySelector('[data-edit-form]');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Limpar erros anteriores
+        form.querySelectorAll('.error-message').forEach(el => {
+          el.textContent = '';
+          el.classList.remove('is-visible');
+        });
+
+        const cep = cepInput.value.replace(/\D/g, '');
+        const address = addressInput.value.trim();
+        // Lê `neighborhood` e `city` do formulário para manter compatibilidade com cadastros antigos
+        const neighborhood = modal.querySelector('#edit-neighborhood')?.value.trim() ?? '';
+        const city = modal.querySelector('#edit-city')?.value.trim() ?? '';
+        const newPassword = form.querySelector('#edit-new-password').value;
+        const confirmPassword = form.querySelector('#edit-confirm-password').value;
+
+        let hasError = false;
+
+        // Validar CEP
+        if (cep.length !== 8) {
+          const cepEl = form.querySelector('[data-error="cep"]');
+          cepEl.textContent = 'CEP deve ter 8 dígitos.';
+          cepEl.classList.add('is-visible');
+          hasError = true;
+        }
+
+        // Validar nova senha
+        if (newPassword) {
+          if (newPassword.length < 6) {
+            const passEl = form.querySelector('[data-error="new-password"]');
+            passEl.textContent = 'Senha deve ter no mínimo 6 caracteres.';
+            passEl.classList.add('is-visible');
+            hasError = true;
+          }
+
+          if (!confirmPassword) {
+            const confEl = form.querySelector('[data-error="confirm-password"]');
+            confEl.textContent = 'Confirme a nova senha.';
+            confEl.classList.add('is-visible');
+            hasError = true;
+          } else if (newPassword !== confirmPassword) {
+            const confEl = form.querySelector('[data-error="confirm-password"]');
+            confEl.textContent = 'As senhas não conferem.';
+            confEl.classList.add('is-visible');
+            hasError = true;
+          }
+        }
+
+        if (hasError) return;
+
+        // Persiste alterações em `currentUser` e sincroniza `registeredUsers`
+        const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        user.cep = cep;
+        user.address = address;
+        // Persiste bairro e cidade quando fornecidos; mantém compatibilidade com registros anteriores.
+        if (neighborhood) user.neighborhood = neighborhood;
+        if (city) user.city = city;
+        if (newPassword) {
+          user.password = newPassword;
+        }
+
+        localStorage.setItem('currentUser', JSON.stringify(user));
+
+        // Sincronizar registeredUsers
+        const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        const idx = users.findIndex(u => u.email === user.email);
+        if (idx !== -1) {
+          users[idx] = user;
+          localStorage.setItem('registeredUsers', JSON.stringify(users));
+        }
+
+        // Atualiza os elementos da página com os novos dados do usuário
+        const cepEl = document.querySelector('[data-info="cep"]');
+        const addrEl = document.querySelector('[data-info="address"]');
+        if (cepEl) cepEl.textContent = cep;
+        if (addrEl) addrEl.textContent = address;
+
+        // Feedback visual após atualização bem-sucedida
+        const infoTab = document.querySelector('[data-tab="info"]');
+        let successMsg = infoTab.querySelector('.success-message');
+        if (!successMsg) {
+          successMsg = document.createElement('p');
+          successMsg.className = 'success-message';
+          successMsg.style.cssText = `
+        padding: 10px 14px;
+        margin: 24px 0 0;
+        border-radius: 6px;
+        background: #d7f8d8;
+        color: var(--color-green);
+        font-weight: 600;
+        font-size: 14px;
+      `;
+          infoTab.appendChild(successMsg);
+        }
+        successMsg.textContent = 'Perfil atualizado com sucesso!';
+        setTimeout(() => { if (successMsg) successMsg.remove(); }, 3500);
+
+        closeModal();
+      });
+
+      // Bloquear scroll da página
+      document.body.classList.add('no-scroll');
+    });
+  </script>
+</body>
+
+</html>

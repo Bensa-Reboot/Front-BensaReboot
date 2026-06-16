@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bensa StreetWear</title>
+  <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../components/site-header/site-header.css">
+  <link rel="stylesheet" href="../components/site-footer/site-footer.css">
+  <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css">
+  <link rel="stylesheet" href="../components/search-overlay/search-overlay.css">
+  <link rel="stylesheet" href="../components/product-grid/product-grid.css">
+</head>
+
+<body>
+  <site-header></site-header> 
+  <search-overlay></search-overlay>
+  <cart-overlay></cart-overlay>
+
+  <main>
+    <section class="hero-home" aria-label="Destaques Bensa StreetWear">
+      <img src="../images/hero-home.png" alt="Tênis, boné e jaqueta vermelhos em destaque">
+      <button class="hero-bag" type="button" data-open-cart aria-label="Abrir carrinho">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M6 7h12l1 14H5L6 7ZM9 7a3 3 0 0 1 6 0" />
+        </svg>
+      </button>
+    </section>
+
+    <section class="brand-strip" aria-label="Marcas">
+      <a href="marca.html?marca=nike" aria-label="Nike">
+        <div class="brand-logo-circle">
+          <img class="brand-card-image" src="../images/logo-nike.png" alt="Nike">
+        </div>
+      </a>
+      <a href="marca.html?marca=adidas" aria-label="Adidas">
+        <div class="brand-logo-circle">
+          <img class="brand-card-image" src="../images/logo-adidas.png" alt="Adidas">
+        </div>
+      </a>
+      <a href="marca.html?marca=jordan" aria-label="Jordan">
+        <div class="brand-logo-circle">
+          <img class="brand-card-image" src="../images/logo-jordan.png" alt="Jordan">
+        </div>
+      </a>
+      <a href="marca.html?marca=vans" aria-label="Vans">
+        <div class="brand-logo-circle">
+          <img class="brand-card-image" src="../images/logo-vans.png" alt="Vans">
+        </div>
+      </a>
+      <a href="marca.html?marca=stussy" aria-label="Stussy">
+        <div class="brand-logo-circle">
+          <img class="brand-card-image" src="../images/logo-stussy.png" alt="Stussy">
+        </div>
+      </a>
+      <a href="marca.html?marca=newbalance" aria-label="New Balance">
+        <div class="brand-logo-circle">
+          <img class="brand-card-image" src="../images/logo-newbalance.png" alt="New Balance">
+        </div>
+      </a>
+    </section>
+
+    <section class="section-shell categories-section" aria-labelledby="categorias">
+      <h1 class="section-title" id="categorias">
+        <span class="title-icon" aria-hidden="true"></span>
+        Categorias
+      </h1>
+      <div class="category-grid">
+        <a class="category-card" href="categoria.html?tipo=roupas" aria-label="Ver categoria Roupas">
+          <img src="../images/category-roupas.png" alt="">
+        </a>
+        <a class="category-card" href="categoria.html?tipo=calcados" aria-label="Ver categoria Calçados">
+          <img src="../images/category-calcados.png" alt="">
+        </a>
+        <a class="category-card" href="categoria.html?tipo=acessorios" aria-label="Ver categoria Acessórios">
+          <img src="../images/category-acessorios.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section class="section-shell releases-section" aria-labelledby="lancamentos">
+      <h2 class="section-title angled" id="lancamentos">lançamentos</h2>
+      <div class="filter-bar" aria-label="Filtros de lançamento">
+        <button class="filter-chip is-active" type="button">Ver todas</button>
+        <button class="filter-chip" type="button">Adidas</button>
+        <button class="filter-chip" type="button">Bape</button>
+        <button class="filter-chip" type="button">New Era</button>
+        <button class="filter-chip" type="button">Supreme</button>
+        <button class="filter-chip" type="button">Vans</button>
+      </div>
+      <product-grid class="product-grid product-grid-home" data-products="3" data-filterable></product-grid>
+      <div class="center-actions">
+        <a class="more-button" href="categoria.html?tipo=calcados">
+          Ver mais
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <section class="section-shell promo-grid" aria-label="Coleções em destaque">
+      <a href="categoria.html?tipo=calcados" aria-label="Ver novidades">
+        <img src="../images/banner-arrivals.png" alt="New arrivals, shop now">
+      </a>
+      <a href="categoria.html?tipo=calcados" aria-label="Comprar calçados">
+        <img src="../images/banner-footwear.png" alt="Footwear, shop now">
+      </a>
+    </section>
+
+    <div class="shipping-bar" data-shipping-bar>
+      <div class="shipping-bar-track" data-shipping-track>
+        <div class="shipping-bar-item">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path
+              d="M3 7h11v8H3V7Zm11 3h4l3 3v2h-7v-5ZM7 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+          </svg>
+          <span>Frete grátis para toda região sul a partir de R$ 299,00</span>
+        </div>
+        <div class="shipping-bar-item" aria-hidden="true">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path
+              d="M3 7h11v8H3V7Zm11 3h4l3 3v2h-7v-5ZM7 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+          </svg>
+          <span>Frete grátis para toda região sul a partir de R$ 299</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="newsletter" aria-labelledby="newsletter-title">
+      <div class="newsletter-content">
+        <div>
+          <h2 id="newsletter-title">Newsletter</h2>
+          <p>Cadastre-se para receber novidades!</p>
+        </div>
+        <form class="newsletter-form" data-feedback-form>
+          <label class="sr-only" for="newsletter-email">E-mail</label>
+          <input id="newsletter-email" name="email" type="email" placeholder="E-mail" required>
+          <button type="submit">Enviar</button>
+          <p class="form-feedback" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script type="module" src="../main.js"></script>
+
+</body>
+
+</html>

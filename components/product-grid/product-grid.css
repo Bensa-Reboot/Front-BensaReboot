@@ -1,0 +1,289 @@
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 64px;
+}
+
+.product-grid-home {
+    padding: 0 0 32px;
+}
+
+.catalog-grid {
+    gap: 76px 72px;
+}
+
+.catalog-page {
+    padding: 72px 0 108px;
+}
+
+.breadcrumb {
+    margin: 0 0 26px;
+    color: #6f6f6f;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.breadcrumb span {
+    color: var(--color-black);
+}
+
+.breadcrumb a {
+    color: #6f6f6f;
+    transition: color .2s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--color-red);
+}
+
+.catalog-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 78px;
+}
+
+.catalog-heading h1 {
+    margin: 0;
+    color: var(--color-black);
+    font-size: 72px;
+    line-height: .95;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.catalog-tools {
+    display: flex;
+    align-items: center;
+    gap: 58px;
+}
+
+.catalog-tools button {
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    color: var(--color-black);
+    background: transparent;
+    font-size: 22px;
+    transition: color .2s ease;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.catalog-tools button:hover {
+    color: var(--color-red);
+}
+
+.catalog-tools svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+    /* Layout dos chips de filtro usados pela UI de lançamentos; mantém densidade
+       para permitir seleção rápida sem afetar o fluxo do grid. */
+.filter-bar {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+    margin-bottom: 34px;
+}
+
+.filter-chip {
+    height: 46px;
+    border: 1.5px solid var(--color-black);
+    border-radius: 6px;
+    color: var(--color-black);
+    background: var(--color-white);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.filter-chip.is-active,
+.filter-chip:hover {
+    color: var(--color-white);
+    background: var(--color-black);
+    transform: translateY(-2px);
+}
+
+/* Ajustes para os cards dentro do catálogo: define altura mínima e espaçamento
+    para manter cards alinhados em grades mistas. */
+.catalog-grid .product-card {
+    min-height: 410px;
+    padding: 34px 32px 28px;
+}
+
+.catalog-grid .product-top {
+    min-height: 240px;
+}
+
+.catalog-grid .product-top img {
+    max-height: 210px;
+}
+
+
+
+    /* Container de marcas no catálogo; agrupa ícones e títulos de coleção. */
+
+.brand-title {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+}
+
+.adidas-large {
+    position: relative;
+    width: 100px;
+    height: 78px;
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
+.adidas-large span {
+    position: absolute;
+    bottom: 0;
+    width: 24px;
+    background: var(--color-black);
+    transform: skew(-25deg);
+}
+
+.adidas-large span:nth-child(1) {
+    left: 4px;
+    height: 24px;
+}
+
+.adidas-large span:nth-child(2) {
+    left: 38px;
+    height: 50px;
+}
+
+.adidas-large span:nth-child(3) {
+    left: 72px;
+    height: 76px;
+}
+
+.card-brand-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.brand-logo-mark {
+    width: 36px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+}
+
+.brand-logo-heading {
+    width: 80px;
+    height: 62px;
+    object-fit: contain;
+    display: block;
+    flex: 0 0 auto;
+}
+
+/* Media queries do grid de produtos: adaptações de espaçamento e cabeçalho para telas menores. */
+@media (max-width: 1200px) {
+    .product-grid {
+        gap: 36px;
+    }
+
+    .catalog-heading h1 {
+        font-size: 58px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .filter-bar {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .product-grid,
+    .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalog-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product-grid,
+    .catalog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-page {
+        padding-top: 42px;
+    }
+
+    .catalog-heading {
+        margin-bottom: 42px;
+    }
+
+    .catalog-heading h1 {
+        font-size: 44px;
+    }
+
+    .catalog-tools {
+        width: 100%;
+        justify-content: space-between;
+        gap: 18px;
+    }
+
+    .catalog-tools button {
+        font-size: 16px;
+    }
+
+    .brand-title {
+        gap: 20px;
+    }
+
+    .adidas-large {
+        width: 64px;
+        height: 54px;
+    }
+
+    .adidas-large span {
+        width: 16px;
+    }
+
+    .brand-logo-heading {
+        width: 52px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 420px) {
+    .filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-heading h1 {
+        font-size: 38px;
+    }
+}
