@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido | Bensa StreetWear</title>
+    <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pedido.css">
+    <link rel="stylesheet" href="../components/site-header/site-header.css">
+    <link rel="stylesheet" href="../components/site-footer/site-footer.css">
+    <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css">
+    <link rel="stylesheet" href="../components/search-overlay/search-overlay.css">
+
+</head>
+
+<body>
+    <site-header></site-header>
+    <search-overlay></search-overlay>
+    <cart-overlay></cart-overlay>
+
+    <main class="order-page">
+        <div class="order-container">
+            <a href="perfil.html" class="order-back-link">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Voltar para o perfil
+            </a>
+            <h1 class="order-title">Detalhes do Pedido</h1>
+
+            <div class="order-header-detail">
+                <div>
+                    <p class="order-header-id" data-order-id></p>
+                    <p class="order-header-date" data-order-date></p>
+                </div>
+                <span class="order-status-badge" data-order-status></span>
+            </div>
+
+            <section class="order-items-section">
+                <h2>Itens do Pedido</h2>
+                <div class="order-items-list" data-order-items></div>
+            </section>
+
+            <section class="order-totals-section">
+                <div class="order-total-row">
+                    <span>Subtotal</span>
+                    <span data-order-subtotal></span>
+                </div>
+                <div class="order-total-row">
+                    <span>Frete</span>
+                    <span data-order-shipping></span>
+                </div>
+                <div class="order-total-row order-total-final">
+                    <span>Total</span>
+                    <strong data-order-total></strong>
+                </div>
+            </section>
+
+            <section class="order-address-section">
+                <h2>Endereço de Entrega</h2>
+                <div class="order-address-grid" data-order-address></div>
+            </section>
+        </div>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script type="module" src="../main.js"></script>
+    <script type="module">
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!isLoggedIn || !user?.email) {
+            window.location.href = 'login.html';
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('id');
+        if (!orderId) {
+            window.location.href = 'perfil.html';
+        }
+
+        const order = (user.orders || []).find(o => o.id === orderId);
+        if (!order) {
+            window.location.href = 'perfil.html';
+        }
+
+        document.querySelector('[data-order-id]').textContent = `Pedido #${order.id}`;
+        document.querySelector('[data-order-date]').textContent = new Date(order.date).toLocaleDateString('pt-BR', {
+            day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        document.querySelector('[data-order-status]').textContent = order.status;
+
+        const itemsContainer = document.querySelector('[data-order-items]');
+        itemsContainer.innerHTML = (order.items || []).map(item => `
+  <div class="order-item-row">
+    <img src="${item.image}" alt="${item.title}">
+    <div class="order-item-info">
+      <p class="order-item-name">${item.title}</p>
+      <p class="order-item-meta">Tamanho: ${item.size} &middot; Qtd: ${item.qty}</p>
+    </div>
+    <strong class="order-item-price">${window.formatPrice(item.price * item.qty)}</strong>
+  </div>
+`).join('');
+
+        const subtotal = order.items.reduce((sum, i) => sum + i.price * i.qty, 0);
+        document.querySelector('[data-order-subtotal]').textContent = window.formatPrice(subtotal);
+        document.querySelector('[data-order-total]').textContent = window.formatPrice(order.total);
+
+        // BUG 7 CORRIGIDO: frete agora é renderizado
+        const shippingEl = document.querySelector('[data-order-shipping]');
+        if (shippingEl) {
+            shippingEl.textContent = (order.shippingCost === 0 || !order.shippingCost)
+                ? 'Grátis'
+                : window.formatPrice(order.shippingCost);
+        }
+
+        const addr = order.address;
+        if (addr) {
+            const addressContainer = document.querySelector('[data-order-address]');
+            addressContainer.innerHTML = `
+        <div><strong>CEP</strong><p>${addr.cep || '-'}</p></div>
+        <div><strong>Endereço</strong><p>${addr.address || '-'}, ${addr.number || '-'}</p></div>
+        ${addr.complement ? `<div><strong>Complemento</strong><p>${addr.complement}</p></div>` : ''}
+        <div><strong>Bairro</strong><p>${addr.neighborhood || '-'}</p></div>
+        <div><strong>Cidade</strong><p>${addr.city || '-'}</p></div>
+        <div><strong>Estado</strong><p>${addr.state || '-'}</p></div>
+      `;
+        }
+    </script>
+</body>
+
+</html>
