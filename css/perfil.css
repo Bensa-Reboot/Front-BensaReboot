@@ -1,6 +1,6 @@
-/* ===== perfil.css - Página de perfil do usuário ===== */
+/* Estilos principais da página de perfil: layout de painel, navegação por abas e conteúdos do usuário. */
 
-/* ── PROFILE PAGE ─────────────────────────────── */
+/* Layout da página de perfil: estrutura de grid, sidebar e área de conteúdo principal. */
 .profile-page {
     padding: 60px 0 128px;
 }
@@ -250,7 +250,7 @@
     transform: translateY(-2px);
 }
 
-/* ── FAVORITOS ─────────────────────────────── */
+/* Favoritos: lista de produtos salvos pelo usuário e ações de gerenciamento. */
 .favorites-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -383,7 +383,7 @@
     bottom: auto;
 }
 
-/* ── PEDIDOS (lista no perfil) ───────────────────────────────── */
+/* Histórico de pedidos: estrutura de item e indicador de clique para detalhes. */
 .orders-list {
     display: flex;
     flex-direction: column;
@@ -488,7 +488,7 @@ a.order-item:hover::after {
     opacity: 1;
 }
 
-/* ── MEDIA QUERIES DO PERFIL (responsividade) ── */
+/* Responsividade do perfil: adapta layout e grids para tablets e celulares. */
 @media (max-width: 768px) {
     .profile-container {
         grid-template-columns: 1fr;
@@ -532,7 +532,7 @@ a.order-item:hover::after {
     }
 }
 
-/* ─── MODAL DE EDIÇÃO DE PERFIL ─────────────── */
+/* Modal de edição de perfil: overlay, diálogo e estados de foco para edição de dados. */
 .modal-overlay {
     position: fixed;
     inset: 0;

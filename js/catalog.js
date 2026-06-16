@@ -17,7 +17,6 @@ export const brandLabels = {
 };
 
 export const catalog = {
-  // Categorias
   roupas: {
     symbol: ``,
     products: [
@@ -60,7 +59,6 @@ export const catalog = {
       { title: 'Chaveiro Logo',        price:  49.99, image: '../images/product-shoe.png', badge: 'Novo' },
     ]
   },
-  // Marcas
   nike: {
     symbol: brandSymbols.nike,
     products: [
@@ -148,17 +146,26 @@ export const catalog = {
 };
 
 /**
- * Gera o ID único de um produto a partir da chave da seção, título e índice.
- * Usado tanto no grid quanto na página de produto para garantir consistência.
+ * Normaliza e compõe um identificador estável para o produto.
+ * @param {string} sectionKey chave da seção (ex: "calcados")
+ * @param {string} title título do produto
+ * @param {number} index índice dentro da lista — evita colisões quando títulos se repetem
+ * @returns {string} id composto e slugificado
+ *
+ * Rationale: garante IDs idênticos entre o grid e a página de produto sem
+ * depender de um backend. A função slugifica o título para URLs legíveis.
  */
 export function makeProductId(sectionKey, title, index) {
   return `${sectionKey}-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${index}`;
 }
 
 /**
- * Busca um produto por ID em todo o catálogo.
+ * Procura um produto pelo ID composto retornado por `makeProductId`.
  * @param {string} productId
- * @returns {Object|null}
+ * @returns {Object|null} produto com propriedade `id` e `sectionKey`, ou `null`
+ *
+ * Observação de performance: busca linear (O(n)) considerada aceitável
+ * para o catálogo local exibido no cliente — o tamanho máximo esperado é baixo.
  */
 export function findProductById(productId) {
   for (const [sectionKey, section] of Object.entries(catalog)) {

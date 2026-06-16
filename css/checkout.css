@@ -25,7 +25,7 @@
     align-items: start;
 }
 
-/* Abas */
+/* Abas do fluxo de checkout: controle visual e estado ativo para transição entre etapas */
 .checkout-tabs {
     display: flex;
     gap: 0;
@@ -74,7 +74,7 @@
     color: var(--color-white);
 }
 
-/* Painéis */
+/* Painéis: cada painel corresponde a uma etapa (Entrega / Pagamento) e é alternado via JS. */
 .checkout-tab-panel {
     display: none;
 }
@@ -83,7 +83,7 @@
     display: block;
 }
 
-/* Formulários */
+/* Estilos de formulário: inputs, grupos de CEP e foco — projetado para acessibilidade básica */
 .checkout-forms {
     background: var(--color-white);
     border-radius: 16px;
@@ -188,8 +188,8 @@
     outline: none;
 }
 
-/* Remove contorno ao focar no input de CEP */
-.checkout-field--cep .cep-input-group input:focus {
+/* Foco visual do input de CEP (evita outline nativo e aplica borda de destaque) */
+ .checkout-field--cep .cep-input-group input:focus {
     outline: none;
     border-color: var(--color-red);
 }
@@ -200,7 +200,7 @@
     color: var(--color-black);
 }
 
-/* Frete selecionado */
+/* Caixa que exibe o método de frete selecionado — atualizada via JS a partir do fluxo de checkout */
 .checkout-shipping-info {
     background: var(--color-soft);
     border-radius: 8px;
@@ -231,7 +231,7 @@
     font-weight: 800;
 }
 
-/* Seção de pagamento */
+/* Rótulo e agrupamento de métodos de pagamento (cartão) */
 .checkout-section-label {
     margin: 0 0 24px;
     font-size: 13px;
@@ -241,7 +241,7 @@
     color: var(--color-muted);
 }
 
-/* Botões */
+/* Estilos para botões principales do fluxo: continuar e finalizar com estados hover */
 .btn-next-tab {
     width: 100%;
     height: 56px;
@@ -282,7 +282,7 @@
     transform: translateY(-2px);
 }
 
-/* Resumo lateral */
+/* Painel de resumo lateral: sticky em desktop, contém subtotal/frete/total */
 .checkout-summary {
     background: var(--color-white);
     border-radius: 16px;
@@ -360,7 +360,7 @@
     color: var(--color-black);
 }
 
-/* Responsivo do checkout */
+/* Ajustes responsivos do layout de checkout para telas menores */
 @media (max-width: 1024px) {
     .checkout-layout {
         grid-template-columns: 1fr;

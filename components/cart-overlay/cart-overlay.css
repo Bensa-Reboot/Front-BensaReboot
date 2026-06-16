@@ -474,7 +474,7 @@
   white-space: nowrap;
 }
  
-/* Media queries específicas do carrinho */
+/* Ajustes responsivos para o drawer do carrinho em viewports menores. */
 @media (max-width: 768px) {
  
   .cart-head,

@@ -1,4 +1,10 @@
-/* ===== search-overlay.css ===== */
+
+/*
+ * Styles for the search overlay component (`<search-overlay>`).
+ * Purpose: layout and visual behavior for the global search panel and suggestions.
+ * Notes: suggestions panel uses absolute positioning and max-height to allow
+ * virtualization if needed in the future.
+ */
 
 .search-overlay {
   position: fixed;

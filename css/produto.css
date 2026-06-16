@@ -216,7 +216,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Media queries da página de produto */
+/* Media queries do produto: ajustam layout e espaçamento em larguras menores. */
 @media (max-width: 1200px) {
   .product-detail {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);

@@ -22,7 +22,8 @@ class ProductGrid extends HTMLElement {
     const marca = params.get('marca')?.toLowerCase().replace(/\s/g, '');
     const busca = params.get('q')?.trim();
 
-    // Modo busca
+    // Busca: agrega produtos de todas as seções e remove duplicatas por ID
+    // (mesmo produto pode aparecer em múltiplas seções), preservando ordem.
     if (tipo === 'busca' && busca) {
       const allProducts = [];
       for (const [key, section] of Object.entries(catalog)) {
@@ -52,7 +53,8 @@ class ProductGrid extends HTMLElement {
       return;
     }
 
-    // Modo normal
+    // Modo padrão: renderiza a seção/marca selecionada. `data-products` define
+    // quantos itens exibir (default 9) — usado para limitar o payload no cliente.
     const key = marca || tipo || 'calcados';
     const data = catalog[key] || catalog.calcados;
 

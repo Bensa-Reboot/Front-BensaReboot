@@ -42,7 +42,7 @@
 
       <section class="profile-content">
 
-        <!-- TAB: Informações -->
+           <!-- Painel de informações pessoais: exibe campos do `currentUser` e atualiza os dados via modal. -->
         <div class="profile-tab is-active" data-tab="info">
           <h3>Informações Pessoais</h3>
           <div class="profile-info-grid">
@@ -62,13 +62,13 @@
           <button class="edit-btn" type="button" data-edit-profile>Editar Perfil</button>
         </div>
 
-        <!-- TAB: Favoritos -->
+        <!-- Painel de favoritos: renderiza `user.favorites` e persiste remoções em localStorage. -->
         <div class="profile-tab" data-tab="favorites">
           <h3>Meus Favoritos</h3>
           <div class="favorites-grid" data-favorites-list></div>
         </div>
 
-        <!-- TAB: Histórico de Pedidos -->
+        <!-- Painel de histórico de pedidos: renderiza `user.orders` com links para a página detalhada. -->
         <div class="profile-tab" data-tab="orders">
           <h3>Histórico de Pedidos</h3>
           <div class="orders-list" data-orders-list></div>
@@ -99,7 +99,7 @@
         new Date(user.createdAt).toLocaleDateString('pt-BR');
     }
 
-    // ─── Aba Favoritos ────────────────────────────────────────
+    // Renderiza favoritos do usuário e gerencia remoção (persiste em localStorage)
     const favList = document.querySelector('[data-favorites-list]');
     const favs = user.favorites ?? [];
 
@@ -155,7 +155,7 @@
       }
     });
 
-    // ─── Aba Pedidos ──────────────────────────────────────────
+    // Renderiza histórico de pedidos. Detecta ausência e exibe estado vazio.
     const ordersList = document.querySelector('[data-orders-list]');
     const orders = user.orders ?? [];
 
@@ -177,7 +177,7 @@
 `).join('');
     }
 
-    // ─── Navegação entre abas ─────────────────────────────────
+    // Handlers de navegação das abas do perfil (info, favoritos, pedidos)
     document.querySelectorAll('[data-nav-btn]').forEach(btn => {
       btn.addEventListener('click', () => {
         const tab = btn.dataset.navBtn;
@@ -195,7 +195,7 @@
     });
 
     document.querySelector('[data-edit-profile]').addEventListener('click', () => {
-      // ─── Criar elementos do modal ──────────────────────────────
+      // Cria modal de edição de perfil (DOM dinâmico, sem biblioteca)
       const overlay = document.createElement('div');
       overlay.className = 'modal-overlay';
       overlay.setAttribute('data-modal-overlay', '');
@@ -247,7 +247,7 @@
       overlay.appendChild(modal);
       document.body.appendChild(overlay);
 
-      // ─── Eventos de fechamento ─────────────────────────────────
+      // Eventos de fechamento do modal (overlay click, botão cancelar, Escape)
       const closeModal = () => {
         overlay.remove();
         document.body.classList.remove('no-scroll');
@@ -266,7 +266,7 @@
         }
       });
 
-      // ─── Buscar CEP ────────────────────────────────────────────
+      // Busca de CEP dentro do modal — valida e mostra mensagens de erro no modal
       const cepInput = modal.querySelector('#edit-cep');
       const addressInput = modal.querySelector('#edit-address');
       const searchBtn = modal.querySelector('[data-cep-search]');
@@ -313,7 +313,7 @@
         }
       });
 
-      // ─── Submissão do formulário ──────────────────────────────
+      // Submissão do formulário de edição: validações, persistência e feedback
       const form = modal.querySelector('[data-edit-form]');
       form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -326,7 +326,7 @@
 
         const cep = cepInput.value.replace(/\D/g, '');
         const address = addressInput.value.trim();
-        // BUG 10 CORRIGIDO: ler neighborhood e city do formulário para salvar
+        // Lê `neighborhood` e `city` do formulário para manter compatibilidade com cadastros antigos
         const neighborhood = modal.querySelector('#edit-neighborhood')?.value.trim() ?? '';
         const city = modal.querySelector('#edit-city')?.value.trim() ?? '';
         const newPassword = form.querySelector('#edit-new-password').value;
@@ -366,11 +366,11 @@
 
         if (hasError) return;
 
-        // ─── Atualizar localStorage ─────────────────────────
+        // Persiste alterações em `currentUser` e sincroniza `registeredUsers`
         const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
         user.cep = cep;
         user.address = address;
-        // BUG 10 CORRIGIDO: persistir neighborhood e city
+        // Persiste bairro e cidade quando fornecidos; mantém compatibilidade com registros anteriores.
         if (neighborhood) user.neighborhood = neighborhood;
         if (city) user.city = city;
         if (newPassword) {
@@ -387,13 +387,13 @@
           localStorage.setItem('registeredUsers', JSON.stringify(users));
         }
 
-        // ─── Atualizar DOM ──────────────────────────────────
+        // Atualiza os elementos da página com os novos dados do usuário
         const cepEl = document.querySelector('[data-info="cep"]');
         const addrEl = document.querySelector('[data-info="address"]');
         if (cepEl) cepEl.textContent = cep;
         if (addrEl) addrEl.textContent = address;
 
-        // ─── Feedback de sucesso ────────────────────────────
+        // Feedback visual após atualização bem-sucedida
         const infoTab = document.querySelector('[data-tab="info"]');
         let successMsg = infoTab.querySelector('.success-message');
         if (!successMsg) {

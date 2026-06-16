@@ -49,7 +49,7 @@
   color: var(--color-black);
 }
 
-/* Cabeçalho do pedido */
+/* Cabeçalho do pedido: exibe ID, data e status. Mantém separador visual das seções */
 .order-header-detail {
   display: flex;
   justify-content: space-between;
@@ -92,7 +92,7 @@
   text-transform: uppercase;
 }
 
-/* Seções */
+/* Organiza blocos de informações do pedido com espaçamento e separadores visuais. */
 .order-section {
   margin-bottom: 48px;
 }
@@ -106,7 +106,7 @@
   color: var(--color-black);
 }
 
-/* Itens */
+/* Lista de itens do pedido: estrutura de grid para cada item com imagem, nome e preço. */
 .order-items-list {
   display: flex;
   flex-direction: column;
@@ -160,7 +160,7 @@
   white-space: nowrap;
 }
 
-/* Totais */
+/* Totais do pedido: alinha subtotal, frete e total final com destaque visual. */
 .order-totals {
   display: flex;
   flex-direction: column;
@@ -188,7 +188,7 @@
   color: var(--color-red);
 }
 
-/* Endereço */
+/* Endereço de entrega: grid de labels e valores para os dados do cliente. */
 .order-address-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
