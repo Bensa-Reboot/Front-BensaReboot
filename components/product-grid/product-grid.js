@@ -142,12 +142,12 @@ class ProductGrid extends HTMLElement {
         <button class="favorite-button" type="button" data-favorite aria-label="Salvar produto como favorito">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
         </button>
-        <a href="produto.html?id=${p.id}" aria-label="Ver produto ${p.title}">
+        <a href="pages/produto.html?id=${p.id}" aria-label="Ver produto ${p.title}">
           <img src="${p.image}" alt="${p.title}">
         </a>
       </div>
       ${badge}
-      <a class="product-title" href="produto.html?id=${p.id}">${p.title}</a>
+      <a class="product-title" href="pages/produto.html?id=${p.id}">${p.title}</a>
      <strong class="product-price">${formatPrice(p.price)}</strong>
       <button
         class="bag-button ${p.stock === 0 ? 'is-disabled' : ''}"
