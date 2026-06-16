@@ -7,7 +7,6 @@ class SiteHeader extends HTMLElement {
     if (this.dataset.rendered === 'true') return;
     this.dataset.rendered = 'true';
 
-    // Verificar se usuário está logado
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     

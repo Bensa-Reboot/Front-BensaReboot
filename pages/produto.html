@@ -51,7 +51,7 @@
           <button class="buy-button" type="button" data-add-to-cart>COMPRAR</button>
         </div>
 
-        <!-- BUG 3 CORRIGIDO: botão favorito agora tem data-fav-product para o handler inline -->
+           <!-- Botão de favorito do produto: controla `currentUser.favorites` isoladamente usando `data-favorite-product`. -->
         <button class="favorite-wide" type="button" data-favorite-product>
           <span data-fav-label>SALVAR COMO FAVORITOS</span>
           <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@
       if (priceEl) priceEl.textContent = window.formatPrice(product.price);
       if (instEl) instEl.textContent = `3 X De ${window.formatPrice(product.price / 3)} Sem Juros`;
 
-      // ─── BUG 3 CORRIGIDO: favorito na página de produto ──────
+      // Favorito: alterna presença em `currentUser.favorites`. Requer autenticação.
       const favBtn = document.querySelector('[data-favorite-product]');
       const favLabel = document.querySelector('[data-fav-label]');
 
@@ -140,8 +140,8 @@
       });
     }
 
-    // BUG 2 CORRIGIDO: removido DOMContentLoaded — módulos executam com DOM já pronto.
-    // Usamos setTimeout(0) apenas para garantir que cartState (de cart-overlay.js) já foi registrado.
+    // Pequeno atraso para garantir que `cartState` (registrado por `cart-overlay`) esteja disponível
+    // antes de anexar handlers que o utilizam; evita usar DOMContentLoaded dentro de módulos.
     setTimeout(() => {
       document.addEventListener('click', (e) => {
         const t = e.target;

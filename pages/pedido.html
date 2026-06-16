@@ -108,7 +108,7 @@
         document.querySelector('[data-order-subtotal]').textContent = window.formatPrice(subtotal);
         document.querySelector('[data-order-total]').textContent = window.formatPrice(order.total);
 
-        // BUG 7 CORRIGIDO: frete agora é renderizado
+        // Renderiza frete do pedido com fallback para 'Grátis' quando `shippingCost` for zero/undefined
         const shippingEl = document.querySelector('[data-order-shipping]');
         if (shippingEl) {
             shippingEl.textContent = (order.shippingCost === 0 || !order.shippingCost)

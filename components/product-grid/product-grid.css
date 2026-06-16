@@ -90,7 +90,9 @@
     stroke-linejoin: round;
 }
 
-/* Filtros */
+
+    /* Layout dos chips de filtro usados pela UI de lançamentos; mantém densidade
+       para permitir seleção rápida sem afetar o fluxo do grid. */
 .filter-bar {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -120,7 +122,8 @@
     transform: translateY(-2px);
 }
 
-/* Ajustes para os cards dentro do catálogo */
+/* Ajustes para os cards dentro do catálogo: define altura mínima e espaçamento
+    para manter cards alinhados em grades mistas. */
 .catalog-grid .product-card {
     min-height: 410px;
     padding: 34px 32px 28px;
@@ -136,7 +139,8 @@
 
 
 
-/* Marcas e logos */
+    /* Container de marcas no catálogo; agrupa ícones e títulos de coleção. */
+
 .brand-title {
     display: flex;
     align-items: center;
@@ -195,7 +199,7 @@
     flex: 0 0 auto;
 }
 
-/* Media queries específicas do product-grid */
+/* Media queries do grid de produtos: adaptações de espaçamento e cabeçalho para telas menores. */
 @media (max-width: 1200px) {
     .product-grid {
         gap: 36px;

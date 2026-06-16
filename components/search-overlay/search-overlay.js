@@ -75,7 +75,7 @@ class SearchOverlay extends HTMLElement {
         return;
       }
 
-      // BUG 9 CORRIGIDO: usar formatPrice em vez de toFixed manual
+      // Uso de `formatPrice` para formatação local (moeda) e evitar inconsistências
       suggestionsBox.innerHTML = results.map(p => `
         <a href="produto.html?id=${p.id}" class="search-suggestion-item">
           <img src="${p.image}" alt="${p.title}">

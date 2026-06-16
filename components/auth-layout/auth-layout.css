@@ -1,6 +1,10 @@
-/* ===== auth-layout.css ===== */
-
-/* Página de autenticação (login/registro) */
+.auth-layout-root {}
+/*
+ * Styles para as telas de autenticação (login / registro).
+ * Contrato: fornece layout responsivo e estilos compartilhados para os
+ * componentes `<auth-layout>` usados nas páginas `login.html` e `cadastro.html`.
+ * Dependências: variáveis de cor definidas em `styles.css`.
+ */
 .auth-body {
     min-height: 100vh;
     background: #f0f0f0;
@@ -182,7 +186,7 @@
     pointer-events: none;
 }
 
-/* Mensagem de erro */
+    /* Estilos visuais para mensagens de erro exibidas por validações client-side */
 .error-message {
     display: none;
     margin: 8px 0 18px;
@@ -215,7 +219,9 @@
     }
 }
 
-/* Grupos de CEP e endereço (usados no cadastro e perfil) */
+.cep-group {
+    /* Layout e estilos para inputs de CEP e busca de endereço via API */
+}
 .cep-input-group {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -277,7 +283,9 @@
     font-size: 19px;
 }
 
-/* Media queries específicas do auth */
+.auth-responsive {
+    /* Ajustes responsivos para o formulário de autenticação em telas menores */
+}
 
 @media (max-width: 1200px) {
     .auth-screen {

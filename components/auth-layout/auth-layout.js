@@ -1,7 +1,7 @@
 class AuthLayout extends HTMLElement {
   connectedCallback() {
     if (localStorage.getItem('isLoggedIn') === 'true') {
-      // BUG 8 CORRIGIDO: respeitar ?redirect=checkout ao já estar logado
+      // Preserva `?redirect=checkout` quando o usuário já está autenticado
       const redirect = new URLSearchParams(window.location.search).get('redirect');
       window.location.href = redirect === 'checkout' ? 'checkout.html' : 'index.html';
       return;
@@ -36,7 +36,6 @@ class AuthLayout extends HTMLElement {
     first.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // ─── REGISTER ───────────────────────────────────────────────
   _renderRegister() {
     this.innerHTML = `
       <main class="auth-screen">
@@ -215,7 +214,6 @@ class AuthLayout extends HTMLElement {
     });
   }
 
-  // ─── LOGIN ───────────────────────────────────────────────────
   _renderLogin() {
     this.innerHTML = `
       <main class="auth-screen">
@@ -280,7 +278,7 @@ class AuthLayout extends HTMLElement {
       if (user) {
         localStorage.setItem('currentUser', JSON.stringify(user));
         localStorage.setItem('isLoggedIn', 'true');
-        // BUG 8 CORRIGIDO: respeitar ?redirect=checkout após login
+        // Preserva comportamento de redirecionamento `?redirect=checkout` após login
         const redirect = new URLSearchParams(window.location.search).get('redirect');
         window.location.href = redirect === 'checkout' ? 'checkout.html' : 'index.html';
       } else {

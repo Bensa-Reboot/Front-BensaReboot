@@ -26,10 +26,10 @@
 
       <div class="checkout-layout">
 
-        <!-- ─── Coluna esquerda: abas de entrega + pagamento ─── -->
+           <!-- Estrutura de checkout em duas etapas: entrega coleta endereço/CEP e frete; pagamento valida cartão e finaliza o pedido. -->
         <div class="checkout-forms">
 
-          <!-- Abas -->
+          <!-- Navegação entre etapas do checkout; a aba ativa controla qual painel é exibido. -->
           <div class="checkout-tabs">
             <button class="checkout-tab is-active" data-tab="delivery">
               <span class="checkout-tab-num">1</span> Entrega
@@ -39,7 +39,7 @@
             </button>
           </div>
 
-          <!-- Aba Entrega -->
+          <!-- Painel de entrega: captura endereço, CEP e apresenta método de frete selecionado. -->
           <section class="checkout-tab-panel is-active" data-panel="delivery">
             <form data-checkout-form novalidate>
               <div class="checkout-field-row">
@@ -94,7 +94,7 @@
                 </div>
               </div>
 
-              <!-- Frete pré-calculado -->
+                  <!-- Componente de visualização de frete: atualizado via JS a partir de `sessionStorage.checkoutShipping`. -->
               <div class="checkout-shipping-info" data-shipping-info>
                 <p class="checkout-shipping-label">Método de entrega</p>
                 <div class="checkout-shipping-selected" data-shipping-selected>
@@ -111,7 +111,7 @@
             </form>
           </section>
 
-          <!-- Aba Pagamento -->
+          <!-- Painel de pagamento: captura dados do cartão e permite revisar o valor total antes de concluir. -->
           <section class="checkout-tab-panel" data-panel="payment">
             <form data-payment-form novalidate>
               <p class="checkout-section-label">Cartão de crédito</p>
@@ -159,7 +159,7 @@
 
         </div>
 
-        <!-- ─── Coluna direita: resumo ─── -->
+        <!-- Resumo do pedido: subtotal, frete e total calculados no cliente -->
         <aside class="checkout-summary">
           <h2>Resumo do Pedido</h2>
           <div class="checkout-items" data-checkout-items></div>
@@ -187,14 +187,15 @@
 
   <script type="module" src="../main.js"></script>
   <script type="module">
-    // ─── Auth ─────────────────────────────────────────────────
+    // Verifica autenticação: redireciona para login com `?redirect=checkout` quando necessário
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
     if (!isLoggedIn || !user?.email) {
       window.location.href = 'login.html?redirect=checkout';
     }
 
-    // ─── Dados do carrinho e frete ────────────────────────────
+    // Restaura estado de checkout salvo em sessão: `checkoutCart` e `checkoutShipping`.
+    // Redireciona para catálogo se o carrinho estiver vazio.
     const savedCart = sessionStorage.getItem('checkoutCart');
     const savedShipping = sessionStorage.getItem('checkoutShipping');
     const cartItems = savedCart ? JSON.parse(savedCart) : [];
@@ -204,7 +205,7 @@
       window.location.href = 'categoria.html?tipo=calcados';
     }
 
-    // ─── Resumo ───────────────────────────────────────────────
+    // Renderiza resumo do pedido. Usa `window.formatPrice` para formatação local.
     const itemsEl = document.querySelector('[data-checkout-items]');
     const subtotalEl = document.querySelector('[data-checkout-subtotal]');
     const shippingEl = document.querySelector('[data-checkout-shipping]');
@@ -234,8 +235,7 @@
     }
     renderSummary();
 
-    // ─── Preencher dados do usuário ───────────────────────────
-    // BUG 6 CORRIGIDO: fallback para usuários sem campo name (cadastros antigos)
+    // Preenche dados do usuário (fallback para nomes ausentes em cadastros antigos)
     document.getElementById('checkout-name').value = user.name || user.email.split('@')[0];
     document.getElementById('checkout-email').value = user.email;
     document.getElementById('checkout-state').value = user.state || '';
@@ -259,7 +259,7 @@
         window.formatPrice(shippingData.price ?? 0);
     }
 
-    // ─── Busca de CEP ─────────────────────────────────────────
+    // Busca de CEP: consulta `viacep` e preenche endereço; ignora erros silenciosamente
     const addressInput = document.getElementById('checkout-address');
     const neighborhoodInput = document.getElementById('checkout-neighborhood');
     const cityInput = document.getElementById('checkout-city');
@@ -291,7 +291,7 @@
       if (e.key === 'Enter') { e.preventDefault(); buscarCep(); }
     });
 
-    // ─── Máscara de cartão ────────────────────────────────────
+    // Máscaras simples para campos do cartão (formato visual apenas)
     document.getElementById('card-number').addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g, '').slice(0, 16);
       e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
@@ -305,7 +305,7 @@
       e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
     });
 
-    // ─── Navegação entre abas ─────────────────────────────────
+    // Navegação entre abas com validação mínima na transição de Entrega → Pagamento
     document.querySelectorAll('[data-tab]').forEach(tab => {
       tab.addEventListener('click', () => switchTab(tab.dataset.tab));
     });
@@ -334,7 +334,8 @@
       document.querySelectorAll('[data-panel]').forEach(p => p.classList.toggle('is-active', p.dataset.panel === name));
     }
 
-    // ─── Finalizar pedido ─────────────────────────────────────
+    // Finalização do pedido: validação do formulário de pagamento, montagem do objeto
+    // `order` e persistência em `currentUser` + sincronização em `registeredUsers`.
     const paymentForm = document.querySelector('[data-payment-form]');
     paymentForm.addEventListener('submit', (e) => {
       e.preventDefault();

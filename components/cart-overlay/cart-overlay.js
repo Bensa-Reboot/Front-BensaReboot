@@ -44,7 +44,11 @@ function isSouthCep(cep) {
   return num >= 80000000 && num <= 99999999;
 }
 
-// Frete fixo para região sul quando abaixo do mínimo
+/*
+ * Política de frete para região Sul: quando o total for inferior ao limiar
+ * (`SOUTH_FREE_THRESHOLD`), aplica-se frete fixo `SOUTH_SHIPPING_PRICE`.
+ * Valores são regras de negócio definidas pelo produto (R$9,90; limiar R$299).
+ */
 const SOUTH_SHIPPING_PRICE = 9.90;
 const SOUTH_FREE_THRESHOLD = 299;
 
@@ -93,7 +97,7 @@ class CartOverlay extends HTMLElement {
       </div>
     `;
 
-    // ─── Botão Iniciar Compra ──────────────────────────────────
+    // Comportamento do botão de checkout: valida carrinho, frete e autenticação
     const checkoutBtn = this.querySelector('.checkout-button');
     const checkoutError = this.querySelector('.cart-checkout-error');
 
@@ -151,15 +155,15 @@ class CartOverlay extends HTMLElement {
         if (item) cart.setQty(id, item.qty - 1);
         return;
       }
-      // BUG 4 CORRIGIDO: removido o handler de [data-favorite] daqui.
-      // O main.js (bindFavorites) cuida de salvar e toglar o estado corretamente.
+      // Handler de favoritos removido para evitar dupla ligação: o gerenciador
+      // central (`main.js` bindFavorites) é responsável por persistir e alternar.
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') this._close();
     });
 
-    // ─── Frete ────────────────────────────────────────────────
+    // Cálculo de frete: formata CEP, valida e busca via API; caso especial para Sul
     const shippingForm = this.querySelector('form.cart-shipping');
     const cepInput = shippingForm?.querySelector('input[name="cep"]');
     const resultBox = this.querySelector('.cart-shipping-result');
@@ -190,7 +194,7 @@ class CartOverlay extends HTMLElement {
       const total = cart.total();
 
       if (sul) {
-        // BUG 12 CORRIGIDO: região sul abaixo do mínimo tem frete R$9,90, não R$0
+        // Regra de preço: Região Sul tem frete fixo (R$9,90) quando abaixo do limiar.
         const gratis = total >= SOUTH_FREE_THRESHOLD;
         const faltam = (SOUTH_FREE_THRESHOLD - total).toFixed(2).replace('.', ',');
 

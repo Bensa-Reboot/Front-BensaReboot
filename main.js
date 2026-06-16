@@ -8,6 +8,11 @@ import "./components/search-overlay/search-overlay.js";
 import "./components/cart-overlay/cart-overlay.js";
 import "./components/auth-layout/auth-layout.js";
 
+/*
+ * Mapeia o parâmetro `tipo` para rótulos legíveis da UI.
+ * Mantido no cliente para evitar chamadas adicionais quando a página é apenas
+ * de navegação/filtragem. Alterações aqui devem refletir as rotas/SEO.
+ */
 const categoryLabels = {
     roupas: "Roupas",
     calcados: "Calçados",
@@ -24,6 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
     bindShippingMarquee();
 });
 
+/**
+ * Delegação global para botões `data-add-to-cart`.
+ * Usa `dataset.product` (JSON) para criar o item e adicioná-lo ao `cartState`.
+ * Envolve o parse em `try/catch` para ignorar botões malformados sem quebrar a página.
+ */
 function bindGlobalAddToCart() {
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-add-to-cart][data-product]');
@@ -36,11 +46,19 @@ function bindGlobalAddToCart() {
     });
 }
 
+/**
+ * Retorna a lista de favoritos do usuário atual (armazenada em `currentUser`).
+ * Retorna array vazio se não houver usuário autenticado.
+ */
 function getFavorites() {
     const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
     return user?.favorites ?? [];
 }
 
+/**
+ * Persiste a lista de favoritos no `currentUser` e em `registeredUsers`.
+ * Retorna `false` quando o usuário não está autenticado — evita escrita indesejada.
+ */
 function saveFavorites(favorites) {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (!isLoggedIn) return false;
@@ -53,6 +71,11 @@ function saveFavorites(favorites) {
     return true;
 }
 
+/**
+ * Atualiza o estado visual dos botões de favorito. Extrai o `id` a partir
+ * da query string do link do produto — atenção: se o link mudar de formato,
+ * a extração deve ser atualizada.
+ */
 export function refreshFavoriteButtons() {
     const favorites = getFavorites();
     document.querySelectorAll('.product-card').forEach(card => {
@@ -69,6 +92,12 @@ export function refreshFavoriteButtons() {
     });
 }
 
+/**
+ * Liga comportamento de favoritar/desfavoritar produtos.
+ * - redireciona para login se necessário
+ * - atualiza persistência via `saveFavorites`
+ * - usa um `MutationObserver` para reavaliar botões em grids dinâmicos
+ */
 function bindFavorites() {
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-favorite]');
@@ -118,6 +147,10 @@ function bindFavorites() {
     }
 }
 
+/**
+ * Aplica classe `is-scrolled` ao header após 40px para ajustes visuais.
+ * Uso de `{ passive: true }` para não impactar a thread de scroll.
+ */
 function bindScrollHeader() {
     const header = document.querySelector(".site-header");
     if (!header) return;
@@ -126,6 +159,16 @@ function bindScrollHeader() {
     }, { passive: true });
 }
 
+/**
+ * Inicia um marquee de shipping duplicando os filhos do track até preencher
+ * ao menos duas larguras de viewport. Estratégia: clonar nós existentes para
+ * manter semântica/links e reduzir custo de layout ao usar transform para a
+ * animação.
+ *
+ * Trade-off: clonar DOM aumenta o número de nós; aceitável aqui porque o
+ * conteúdo é estático e de tamanho moderado. Cancela `requestAnimationFrame`
+ * quando a aba fica oculta para economizar CPU.
+ */
 function bindShippingMarquee() {
     const track = document.querySelector('[data-shipping-track]');
     if (!track) return;
@@ -174,6 +217,10 @@ function bindShippingMarquee() {
     });
 }
 
+/**
+ * Atualiza títulos e breadcrumb da página de catálogo com base em `tipo` e `q`.
+ * Mantém comportamento previsível para `tipo=busca` (inclui termos na UI).
+ */
 function updateCatalogTitle() {
     const page = document.querySelector("[data-catalog-page]");
     if (!page) return;
@@ -197,6 +244,11 @@ function updateCatalogTitle() {
     document.title = `${label} | Bensa StreetWear`;
 }
 
+/**
+ * Handlers globais de interação:
+ * - seleciona tamanhos por toggle de classe
+ * - previne submissões padrão em formulários controlados via JS
+ */
 function bindInteractions() {
     document.addEventListener("click", (event) => {
         const target = event.target;

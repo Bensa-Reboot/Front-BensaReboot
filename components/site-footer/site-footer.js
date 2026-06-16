@@ -1,3 +1,7 @@
+/**
+ * Componente estático de rodapé.
+ * Contrato: sem atributos, sem efeitos colaterais além da renderização do DOM.
+ */
 class SiteFooter extends HTMLElement {
   connectedCallback() {
     if (this.dataset.rendered === 'true') return;
