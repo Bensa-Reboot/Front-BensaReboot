@@ -7,7 +7,7 @@
  
 ## 🔗 Links
  
-- 🌐 **Site publicado:** [bensa-reboot.github.io](https://bensa-reboot.github.io)
+- 🌐 **Site publicado:** [bensa-reboot.github.io/Front-BensaReboot](https://bensa-reboot.github.io/Front-BensaReboot/)
 - 📁 **Repositório:** [github.com/Bensa-Reboot/Front-BensaReboot](https://github.com/Bensa-Reboot/Front-BensaReboot)
 ---
  
