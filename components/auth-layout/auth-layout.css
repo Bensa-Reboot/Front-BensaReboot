@@ -24,8 +24,14 @@
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
 }
 
+/* Cadastro: card mais largo, padding menor na tela, foto maior */
 .auth-register {
-    grid-template-columns: 1fr 1fr;
+    width: min(1500px, 100%);
+    grid-template-columns: 1.6fr 1fr;
+}
+
+.auth-screen:has(.auth-register) {
+    padding: 12px;
 }
 
 .auth-form {
@@ -272,7 +278,6 @@
 }
 
 /* Media queries específicas do auth */
-
 
 @media (max-width: 1200px) {
     .auth-screen {
