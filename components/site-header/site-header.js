@@ -4,23 +4,18 @@ class SiteHeader extends HTMLElement {
   }
 
   connectedCallback() {
-    if (this.dataset.rendered === "true") return;
-    this.dataset.rendered = "true";
+    if (this.dataset.rendered === 'true') return;
+    this.dataset.rendered = 'true';
 
-    const inPages = window.location.pathname.includes("/pages/");
-    const pagesPrefix = inPages ? "" : "pages/";
-    const assetsPrefix = inPages ? "../" : "";
-    const homeHref = inPages ? "../index.html" : "index.html";
-
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
-
-    const userLink =
-      isLoggedIn && user.email
-        ? `<a class="icon-button" href="${pagesPrefix}perfil.html" aria-label="Meu perfil" title="Perfil">
+    // Verificar se usuário está logado
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
+    const userLink = isLoggedIn && user.email 
+      ? `<a class="icon-button" href="perfil.html" aria-label="Meu perfil" title="Perfil">
            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
          </a>`
-        : `<a class="icon-button" href="${pagesPrefix}login.html" aria-label="Entrar na conta">
+      : `<a class="icon-button" href="login.html" aria-label="Entrar na conta">
            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
          </a>`;
 
@@ -28,9 +23,9 @@ class SiteHeader extends HTMLElement {
       <header class="site-header" data-header>
         <nav class="nav-shell" aria-label="Navegação principal">
           <div class="nav-links">
-            <a href="${pagesPrefix}categoria.html?tipo=roupas">Roupas</a>
-            <a href="${pagesPrefix}categoria.html?tipo=calcados">Calçados</a>
-            <a href="${pagesPrefix}categoria.html?tipo=acessorios">Acessórios</a>
+            <a href="categoria.html?tipo=roupas">Roupas</a>
+            <a href="categoria.html?tipo=calcados">Calçados</a>
+            <a href="categoria.html?tipo=acessorios">Acessórios</a>
           </div>
 
           <a class="brand" href="${homeHref}" aria-label="Página inicial Bensa StreetWear">
