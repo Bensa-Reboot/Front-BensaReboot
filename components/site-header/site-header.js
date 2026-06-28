@@ -28,8 +28,8 @@ class SiteHeader extends HTMLElement {
             <a href="categoria.html?tipo=acessorios">Acessórios</a>
           </div>
 
-          <a class="brand" href="index.html" aria-label="Página inicial Bensa StreetWear">
-            <img src="../images/logo-bensa.svg" alt="Bensa StreetWear">
+          <a class="brand" href="${homeHref}" aria-label="Página inicial Bensa StreetWear">
+            <img src="${assetsPrefix}images/logo-bensa.svg" alt="Bensa StreetWear">
           </a>
 
           <div class="nav-actions">
@@ -51,4 +51,4 @@ class SiteHeader extends HTMLElement {
   }
 }
 
-customElements.define('site-header', SiteHeader);
+customElements.define("site-header", SiteHeader);

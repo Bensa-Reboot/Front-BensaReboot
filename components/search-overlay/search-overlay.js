@@ -1,5 +1,5 @@
-import { catalog, makeProductId } from '../../js/catalog.js';
-import { formatPrice } from '../../js/utils.js';
+import { catalog, makeProductId } from "../../js/catalog.js";
+import { formatPrice } from "../../js/utils.js";
 
 class SearchOverlay extends HTMLElement {
   constructor() {
@@ -7,15 +7,20 @@ class SearchOverlay extends HTMLElement {
   }
 
   connectedCallback() {
-    if (this.dataset.rendered === 'true') return;
-    this.dataset.rendered = 'true';
+    if (this.dataset.rendered === "true") return;
+    this.dataset.rendered = "true";
+
+    this._inPages = window.location.pathname.includes("/pages/");
+    this._pagesPrefix = this._inPages ? "" : "pages/";
+    this._assetsPrefix = this._inPages ? "../" : "";
+    this._homeHref = this._inPages ? "../index.html" : "index.html";
 
     this.innerHTML = `
       <div class="search-overlay" aria-hidden="true">
         <div class="search-backdrop" data-overlay-close></div>
         <section class="search-panel" role="dialog" aria-modal="true" aria-labelledby="search-title">
-          <a class="brand" href="index.html" aria-label="Página inicial Bensa StreetWear">
-            <img src="../images/logo-bensa.svg" alt="Bensa StreetWear">
+          <a class="brand" href="${this._homeHref}" aria-label="Página inicial Bensa StreetWear">
+            <img src="${this._assetsPrefix}images/logo-bensa.svg" alt="Bensa StreetWear">
           </a>
           <form class="search-form" data-search-form autocomplete="off">
             <label id="search-title" for="search-input">Pesquisar</label>
@@ -38,69 +43,74 @@ class SearchOverlay extends HTMLElement {
   }
 
   _bindEvents() {
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       const t = e.target;
-      if (t.closest('[data-open-search]')) this._open();
-      if (t.closest('[data-overlay-close]')) this._close();
+      if (t.closest("[data-open-search]")) this._open();
+      if (t.closest("[data-overlay-close]")) this._close();
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') this._close();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") this._close();
     });
 
-    const form = this.querySelector('[data-search-form]');
-    const input = this.querySelector('#search-input');
-    const clearBtn = this.querySelector('[data-search-clear]');
-    const suggestionsBox = this.querySelector('[data-search-suggestions]');
+    const form = this.querySelector("[data-search-form]");
+    const input = this.querySelector("#search-input");
+    const clearBtn = this.querySelector("[data-search-clear]");
+    const suggestionsBox = this.querySelector("[data-search-suggestions]");
 
     const toggleClearBtn = () => {
       const hasValue = input.value.trim().length > 0;
       clearBtn.hidden = !hasValue;
     };
 
-    input?.addEventListener('input', () => {
+    input?.addEventListener("input", () => {
       const term = input.value.trim();
       toggleClearBtn();
 
       if (term.length < 1) {
-        suggestionsBox.innerHTML = '';
-        suggestionsBox.classList.remove('is-visible');
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.classList.remove("is-visible");
         return;
       }
 
       const results = this._searchAll(term);
       if (results.length === 0) {
-        suggestionsBox.innerHTML = '<p class="search-no-results">Nenhum produto encontrado</p>';
-        suggestionsBox.classList.add('is-visible');
+        suggestionsBox.innerHTML =
+          '<p class="search-no-results">Nenhum produto encontrado</p>';
+        suggestionsBox.classList.add("is-visible");
         return;
       }
 
       // Uso de `formatPrice` para formatação local (moeda) e evitar inconsistências
-      suggestionsBox.innerHTML = results.map(p => `
-        <a href="produto.html?id=${p.id}" class="search-suggestion-item">
+      suggestionsBox.innerHTML = results
+        .map(
+          (p) => `
+        <a href="${this._pagesPrefix}produto.html?id=${p.id}" class="search-suggestion-item">
           <img src="${p.image}" alt="${p.title}">
           <div>
             <p class="search-suggestion-title">${p.title}</p>
             <p class="search-suggestion-price">${formatPrice(p.price)}</p>
           </div>
         </a>
-      `).join('');
-      suggestionsBox.classList.add('is-visible');
+      `,
+        )
+        .join("");
+      suggestionsBox.classList.add("is-visible");
     });
 
-    clearBtn?.addEventListener('click', () => {
-      input.value = '';
+    clearBtn?.addEventListener("click", () => {
+      input.value = "";
       input.focus();
       toggleClearBtn();
-      suggestionsBox.innerHTML = '';
-      suggestionsBox.classList.remove('is-visible');
+      suggestionsBox.innerHTML = "";
+      suggestionsBox.classList.remove("is-visible");
     });
 
-    form?.addEventListener('submit', (e) => {
+    form?.addEventListener("submit", (e) => {
       e.preventDefault();
       const termo = input?.value.trim();
       if (termo) {
-        window.location.href = `categoria.html?tipo=busca&q=${encodeURIComponent(termo)}`;
+        window.location.href = `${this._pagesPrefix}categoria.html?tipo=busca&q=${encodeURIComponent(termo)}`;
         this._close();
       }
     });
@@ -126,33 +136,33 @@ class SearchOverlay extends HTMLElement {
   }
 
   _open() {
-    const overlay = this.querySelector('.search-overlay');
+    const overlay = this.querySelector(".search-overlay");
     if (!overlay) return;
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('no-scroll');
-    const input = this.querySelector('#search-input');
+    overlay.classList.add("is-open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+    const input = this.querySelector("#search-input");
     if (input) {
-      input.value = '';
-      this.querySelector('[data-search-clear]').hidden = true;
-      const box = this.querySelector('[data-search-suggestions]');
-      if (box) box.classList.remove('is-visible');
+      input.value = "";
+      this.querySelector("[data-search-clear]").hidden = true;
+      const box = this.querySelector("[data-search-suggestions]");
+      if (box) box.classList.remove("is-visible");
       setTimeout(() => input.focus(), 100);
     }
   }
 
   _close() {
-    const overlay = this.querySelector('.search-overlay');
+    const overlay = this.querySelector(".search-overlay");
     if (!overlay) return;
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('no-scroll');
-    const box = this.querySelector('[data-search-suggestions]');
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("no-scroll");
+    const box = this.querySelector("[data-search-suggestions]");
     if (box) {
-      box.innerHTML = '';
-      box.classList.remove('is-visible');
+      box.innerHTML = "";
+      box.classList.remove("is-visible");
     }
   }
 }
 
-customElements.define('search-overlay', SearchOverlay);
+customElements.define("search-overlay", SearchOverlay);
