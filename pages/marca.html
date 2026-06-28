@@ -1,51 +1,58 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marca | Bensa StreetWear</title>
+    <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../components/site-header/site-header.css" />
+    <link rel="stylesheet" href="../components/site-footer/site-footer.css" />
+    <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css" />
+    <link
+      rel="stylesheet"
+      href="../components/search-overlay/search-overlay.css"
+    />
+    <link rel="stylesheet" href="../components/product-grid/product-grid.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marca | Bensa StreetWear</title>
-  <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../components/site-header/site-header.css">
-  <link rel="stylesheet" href="../components/site-footer/site-footer.css">
-  <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css">
-  <link rel="stylesheet" href="../components/search-overlay/search-overlay.css">
-  <link rel="stylesheet" href="../components/product-grid/product-grid.css">
-</head>
+  <body>
+    <site-header></site-header>
+    <search-overlay></search-overlay>
+    <cart-overlay></cart-overlay>
 
-<body>
-  <site-header></site-header>
-  <search-overlay></search-overlay>
-  <cart-overlay></cart-overlay>
-
-  <main class="catalog-page" data-marca-page>
-    <section class="catalog-shell">
-      <p class="breadcrumb"><a href="index.html">Início</a> | <span data-marca-breadcrumb></span></p>
-      <div class="catalog-heading brand-heading-row">
-        <h1 class="brand-title" data-marca-title></h1>
-        <div class="catalog-tools">
-          <button type="button">
-            Filtrar
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M4 7h10M18 7h2M10 17h10M4 17h2M8 5v4M16 15v4" />
-            </svg>
-          </button>
-          <button type="button">
-            Ordenar
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </button>
+    <main class="catalog-page" data-marca-page>
+      <section class="catalog-shell">
+        <p class="breadcrumb">
+          <a href="../index.html">Início</a> |
+          <span data-marca-breadcrumb></span>
+        </p>
+        <div class="catalog-heading brand-heading-row">
+          <h1 class="brand-title" data-marca-title></h1>
+          <div class="catalog-tools">
+            <button type="button">
+              Filtrar
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 7h10M18 7h2M10 17h10M4 17h2M8 5v4M16 15v4" />
+              </svg>
+            </button>
+            <button type="button">
+              Ordenar
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
-      <product-grid class="product-grid catalog-grid" data-products="9"></product-grid>
-    </section>
-  </main>
+        <product-grid
+          class="product-grid catalog-grid"
+          data-products="9"
+        ></product-grid>
+      </section>
+    </main>
 
-  <site-footer></site-footer>
+    <site-footer></site-footer>
 
-  <script type="module" src="../main.js"></script>
-</body>
-
+    <script type="module" src="../main.js"></script>
+  </body>
 </html>

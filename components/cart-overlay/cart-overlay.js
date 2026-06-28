@@ -1,9 +1,9 @@
-import { formatPrice } from '../../js/utils.js';
+import { formatPrice } from "../../js/utils.js";
 const cart = {
   items: [],
 
   add(product) {
-    const existing = this.items.find(i => i.id === product.id);
+    const existing = this.items.find((i) => i.id === product.id);
     if (existing) {
       existing.qty += 1;
     } else {
@@ -13,12 +13,12 @@ const cart = {
   },
 
   remove(id) {
-    this.items = this.items.filter(i => i.id !== id);
+    this.items = this.items.filter((i) => i.id !== id);
     this._notify();
   },
 
   setQty(id, qty) {
-    const item = this.items.find(i => i.id === id);
+    const item = this.items.find((i) => i.id === id);
     if (!item) return;
     if (qty < 1) {
       this.remove(id);
@@ -33,14 +33,14 @@ const cart = {
   },
 
   _notify() {
-    document.dispatchEvent(new CustomEvent('cart:updated'));
-  }
+    document.dispatchEvent(new CustomEvent("cart:updated"));
+  },
 };
 
 window.cartState = cart;
 
 function isSouthCep(cep) {
-  const num = parseInt(cep.replace(/\D/g, ''), 10);
+  const num = parseInt(cep.replace(/\D/g, ""), 10);
   return num >= 80000000 && num <= 99999999;
 }
 
@@ -49,13 +49,16 @@ function isSouthCep(cep) {
  * (`SOUTH_FREE_THRESHOLD`), aplica-se frete fixo `SOUTH_SHIPPING_PRICE`.
  * Valores são regras de negócio definidas pelo produto (R$9,90; limiar R$299).
  */
-const SOUTH_SHIPPING_PRICE = 9.90;
+const SOUTH_SHIPPING_PRICE = 9.9;
 const SOUTH_FREE_THRESHOLD = 299;
 
 class CartOverlay extends HTMLElement {
   connectedCallback() {
-    if (this.dataset.rendered === 'true') return;
-    this.dataset.rendered = 'true';
+    if (this.dataset.rendered === "true") return;
+    this.dataset.rendered = "true";
+
+    const inPages = window.location.pathname.includes("/pages/");
+    const pagesPrefix = inPages ? "" : "pages/";
 
     this._shippingCalculated = false;
     this._shippingData = null;
@@ -91,67 +94,76 @@ class CartOverlay extends HTMLElement {
             </div>
             <p class="cart-checkout-error" hidden></p>
             <button class="checkout-button" type="button">Iniciar Compra</button>
-            <a class="continue-link" href="categoria.html?tipo=calcados">Ver mais produtos</a>
+            <a class="continue-link" href="${pagesPrefix}categoria.html?tipo=calcados">Ver mais produtos</a>
           </div>
         </aside>
       </div>
     `;
 
     // Comportamento do botão de checkout: valida carrinho, frete e autenticação
-    const checkoutBtn = this.querySelector('.checkout-button');
-    const checkoutError = this.querySelector('.cart-checkout-error');
+    const checkoutBtn = this.querySelector(".checkout-button");
+    const checkoutError = this.querySelector(".cart-checkout-error");
 
-    checkoutBtn?.addEventListener('click', () => {
-      checkoutError.setAttribute('hidden', '');
-      checkoutError.textContent = '';
+    checkoutBtn?.addEventListener("click", () => {
+      checkoutError.setAttribute("hidden", "");
+      checkoutError.textContent = "";
 
       if (cart.items.length === 0) {
-        checkoutError.textContent = 'Seu carrinho está vazio.';
-        checkoutError.removeAttribute('hidden');
+        checkoutError.textContent = "Seu carrinho está vazio.";
+        checkoutError.removeAttribute("hidden");
         return;
       }
 
       if (!this._shippingCalculated) {
-        checkoutError.textContent = 'Calcule o frete antes de continuar.';
-        checkoutError.removeAttribute('hidden');
+        checkoutError.textContent = "Calcule o frete antes de continuar.";
+        checkoutError.removeAttribute("hidden");
         this.querySelector('input[name="cep"]')?.focus();
         return;
       }
 
-      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
       if (!isLoggedIn) {
-        sessionStorage.setItem('checkoutCart', JSON.stringify(cart.items));
-        sessionStorage.setItem('checkoutShipping', JSON.stringify(this._shippingData));
-        window.location.href = 'login.html?redirect=checkout';
+        sessionStorage.setItem("checkoutCart", JSON.stringify(cart.items));
+        sessionStorage.setItem(
+          "checkoutShipping",
+          JSON.stringify(this._shippingData),
+        );
+        window.location.href = `${pagesPrefix}login.html?redirect=checkout`;
         return;
       }
 
-      sessionStorage.setItem('checkoutCart', JSON.stringify(cart.items));
-      sessionStorage.setItem('checkoutShipping', JSON.stringify(this._shippingData));
-      window.location.href = 'checkout.html';
+      sessionStorage.setItem("checkoutCart", JSON.stringify(cart.items));
+      sessionStorage.setItem(
+        "checkoutShipping",
+        JSON.stringify(this._shippingData),
+      );
+      window.location.href = `${pagesPrefix}checkout.html`;
     });
 
-    document.addEventListener('cart:updated', () => this._render());
+    document.addEventListener("cart:updated", () => this._render());
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       const t = e.target;
-      if (t.closest('[data-open-cart]')) this._open();
-      if (t.closest('[data-overlay-close]')) this._close();
+      if (t.closest("[data-open-cart]")) this._open();
+      if (t.closest("[data-overlay-close]")) this._close();
 
-      const removeBtn = t.closest('[data-cart-remove]');
-      if (removeBtn) { cart.remove(removeBtn.dataset.cartRemove); return; }
+      const removeBtn = t.closest("[data-cart-remove]");
+      if (removeBtn) {
+        cart.remove(removeBtn.dataset.cartRemove);
+        return;
+      }
 
-      const qtyPlus = t.closest('[data-cart-qty-plus]');
-      const qtyMinus = t.closest('[data-cart-qty-minus]');
+      const qtyPlus = t.closest("[data-cart-qty-plus]");
+      const qtyMinus = t.closest("[data-cart-qty-minus]");
       if (qtyPlus) {
         const id = qtyPlus.dataset.cartQtyPlus;
-        const item = cart.items.find(i => i.id === id);
+        const item = cart.items.find((i) => i.id === id);
         if (item) cart.setQty(id, item.qty + 1);
         return;
       }
       if (qtyMinus) {
         const id = qtyMinus.dataset.cartQtyMinus;
-        const item = cart.items.find(i => i.id === id);
+        const item = cart.items.find((i) => i.id === id);
         if (item) cart.setQty(id, item.qty - 1);
         return;
       }
@@ -159,35 +171,35 @@ class CartOverlay extends HTMLElement {
       // central (`main.js` bindFavorites) é responsável por persistir e alternar.
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') this._close();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") this._close();
     });
 
     // Cálculo de frete: formata CEP, valida e busca via API; caso especial para Sul
-    const shippingForm = this.querySelector('form.cart-shipping');
+    const shippingForm = this.querySelector("form.cart-shipping");
     const cepInput = shippingForm?.querySelector('input[name="cep"]');
-    const resultBox = this.querySelector('.cart-shipping-result');
+    const resultBox = this.querySelector(".cart-shipping-result");
 
-    cepInput?.addEventListener('input', (e) => {
-      let v = e.target.value.replace(/\D/g, '');
-      if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5, 8);
+    cepInput?.addEventListener("input", (e) => {
+      let v = e.target.value.replace(/\D/g, "");
+      if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5, 8);
       e.target.value = v;
       this._shippingCalculated = false;
       this._shippingData = null;
     });
 
-    shippingForm?.addEventListener('submit', async (e) => {
+    shippingForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const cep = cepInput?.value.replace(/\D/g, '') ?? '';
+      const cep = cepInput?.value.replace(/\D/g, "") ?? "";
 
       if (cep.length !== 8) {
-        resultBox.removeAttribute('hidden');
+        resultBox.removeAttribute("hidden");
         resultBox.innerHTML = `<p class="cart-shipping-error">Digite um CEP válido (8 dígitos).</p>`;
         this._shippingCalculated = false;
         return;
       }
 
-      resultBox.removeAttribute('hidden');
+      resultBox.removeAttribute("hidden");
       resultBox.innerHTML = `<p class="cart-shipping-loading">Calculando frete...</p>`;
 
       const sul = isSouthCep(cep);
@@ -196,16 +208,28 @@ class CartOverlay extends HTMLElement {
       if (sul) {
         // Regra de preço: Região Sul tem frete fixo (R$9,90) quando abaixo do limiar.
         const gratis = total >= SOUTH_FREE_THRESHOLD;
-        const faltam = (SOUTH_FREE_THRESHOLD - total).toFixed(2).replace('.', ',');
+        const faltam = (SOUTH_FREE_THRESHOLD - total)
+          .toFixed(2)
+          .replace(".", ",");
 
         if (gratis) {
-          this._shippingData = { cep, method: 'gratis', price: 0, label: 'Frete Grátis' };
+          this._shippingData = {
+            cep,
+            method: "gratis",
+            price: 0,
+            label: "Frete Grátis",
+          };
           resultBox.innerHTML = `<p class="cart-shipping-free">✓ Frete grátis para sua região!</p>`;
         } else {
-          this._shippingData = { cep, method: 'sul', price: SOUTH_SHIPPING_PRICE, label: `Entrega Sul (R$ ${SOUTH_SHIPPING_PRICE.toFixed(2).replace('.', ',')})` };
+          this._shippingData = {
+            cep,
+            method: "sul",
+            price: SOUTH_SHIPPING_PRICE,
+            label: `Entrega Sul (R$ ${SOUTH_SHIPPING_PRICE.toFixed(2).replace(".", ",")})`,
+          };
           resultBox.innerHTML = `
             <p class="cart-shipping-free">✓ Região sul — frete grátis a partir de R$ ${SOUTH_FREE_THRESHOLD},00.<br>
-              <small>Faltam R$ ${faltam} para frete grátis. Frete atual: R$ ${SOUTH_SHIPPING_PRICE.toFixed(2).replace('.', ',')}.</small>
+              <small>Faltam R$ ${faltam} para frete grátis. Frete atual: R$ ${SOUTH_SHIPPING_PRICE.toFixed(2).replace(".", ",")}.</small>
             </p>`;
         }
         this._shippingCalculated = true;
@@ -226,7 +250,12 @@ class CartOverlay extends HTMLElement {
         }
 
         this._shippingCalculated = true;
-        this._shippingData = { cep, method: 'pac', price: 19.90, label: 'PAC (5 a 10 dias úteis)' };
+        this._shippingData = {
+          cep,
+          method: "pac",
+          price: 19.9,
+          label: "PAC (5 a 10 dias úteis)",
+        };
 
         resultBox.innerHTML = `
           <p class="cart-shipping-label">Escolha o método de envio:</p>
@@ -250,16 +279,28 @@ class CartOverlay extends HTMLElement {
           </div>
         `;
 
-        resultBox.querySelectorAll('input[name="shipping_method"]').forEach(radio => {
-          radio.addEventListener('change', () => {
-            if (radio.value === 'sedex') {
-              this._shippingData = { cep, method: 'sedex', price: 34.90, label: 'SEDEX (1 a 3 dias úteis)' };
-            } else {
-              this._shippingData = { cep, method: 'pac', price: 19.90, label: 'PAC (5 a 10 dias úteis)' };
-            }
-            this._render();
+        resultBox
+          .querySelectorAll('input[name="shipping_method"]')
+          .forEach((radio) => {
+            radio.addEventListener("change", () => {
+              if (radio.value === "sedex") {
+                this._shippingData = {
+                  cep,
+                  method: "sedex",
+                  price: 34.9,
+                  label: "SEDEX (1 a 3 dias úteis)",
+                };
+              } else {
+                this._shippingData = {
+                  cep,
+                  method: "pac",
+                  price: 19.9,
+                  label: "PAC (5 a 10 dias úteis)",
+                };
+              }
+              this._render();
+            });
           });
-        });
 
         this._render();
       }
@@ -269,15 +310,17 @@ class CartOverlay extends HTMLElement {
   }
 
   _render() {
-    const list = this.querySelector('.cart-items-list');
-    const subtotal = this.querySelector('.cart-subtotal-value');
-    const total = this.querySelector('.cart-total-value');
+    const list = this.querySelector(".cart-items-list");
+    const subtotal = this.querySelector(".cart-subtotal-value");
+    const total = this.querySelector(".cart-total-value");
     if (!list) return;
 
     if (cart.items.length === 0) {
       list.innerHTML = `<p class="cart-empty">Seu carrinho está vazio.</p>`;
     } else {
-      list.innerHTML = cart.items.map(item => `
+      list.innerHTML = cart.items
+        .map(
+          (item) => `
         <div class="cart-item">
           <img src="${item.image}" alt="${item.title}">
           <div class="cart-item-info">
@@ -300,7 +343,9 @@ class CartOverlay extends HTMLElement {
             </div>
           </div>
         </div>
-      `).join('');
+      `,
+        )
+        .join("");
     }
 
     const shippingPrice = this._shippingData?.price ?? 0;
@@ -310,21 +355,21 @@ class CartOverlay extends HTMLElement {
   }
 
   _open() {
-    const overlay = this.querySelector('.cart-overlay');
+    const overlay = this.querySelector(".cart-overlay");
     if (!overlay) return;
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('no-scroll');
-    this.querySelector('[data-overlay-close]')?.focus();
+    overlay.classList.add("is-open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+    this.querySelector("[data-overlay-close]")?.focus();
   }
 
   _close() {
-    const overlay = this.querySelector('.cart-overlay');
+    const overlay = this.querySelector(".cart-overlay");
     if (!overlay) return;
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('no-scroll');
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("no-scroll");
   }
 }
 
-customElements.define('cart-overlay', CartOverlay);
+customElements.define("cart-overlay", CartOverlay);

@@ -1,179 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produto | Bensa StreetWear</title>
+    <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/produto.css" />
+    <link rel="stylesheet" href="../components/site-header/site-header.css" />
+    <link rel="stylesheet" href="../components/site-footer/site-footer.css" />
+    <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css" />
+    <link
+      rel="stylesheet"
+      href="../components/search-overlay/search-overlay.css"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produto | Bensa StreetWear</title>
-  <link rel="icon" type="image/svg+xml" href="../images/logo-bensa.svg">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/produto.css">
-  <link rel="stylesheet" href="../components/site-header/site-header.css">
-  <link rel="stylesheet" href="../components/site-footer/site-footer.css">
-  <link rel="stylesheet" href="../components/cart-overlay/cart-overlay.css">
-  <link rel="stylesheet" href="../components/search-overlay/search-overlay.css">
-</head>
+  <body>
+    <site-header></site-header>
+    <search-overlay></search-overlay>
+    <cart-overlay></cart-overlay>
 
-<body>
-  <site-header></site-header>
-  <search-overlay></search-overlay>
-  <cart-overlay></cart-overlay>
-
-  <main class="product-page">
-    <section class="product-detail">
-      <div class="product-gallery">
-        <img src="../images/product-shirt.png" alt="">
-      </div>
-      <div class="product-info">
-        <p class="breadcrumb"><a href="index.html">INÍCIO</a> | <a href="categoria.html?tipo=roupas">ROUPAS</a> | <span
-            data-breadcrumb-name></span></p>
-        <h1 data-product-title></h1>
-        <p class="detail-price" data-product-price></p>
-        <p class="installments" data-product-installments></p>
-        <p class="shipping-note">Frete grátis a partir de R$299.00 para toda região sul</p>
-
-        <fieldset class="size-field">
-          <legend>Tamanhos</legend>
-          <div class="size-options">
-            <button type="button" data-size>P</button>
-            <button type="button" data-size>M</button>
-            <button type="button" data-size>G</button>
-            <button type="button" data-size>GG</button>
-          </div>
-        </fieldset>
-
-        <div class="buy-row">
-          <div class="quantity-control" aria-label="Quantidade">
-            <button type="button" data-qty-minus aria-label="Diminuir quantidade">−</button>
-            <span data-qty-value>1</span>
-            <button type="button" data-qty-plus aria-label="Aumentar quantidade">+</button>
-          </div>
-          <button class="buy-button" type="button" data-add-to-cart>COMPRAR</button>
+    <main class="product-page">
+      <section class="product-detail">
+        <div class="product-gallery">
+          <img src="../images/product-shirt.png" alt="" />
         </div>
+        <div class="product-info">
+          <p class="breadcrumb">
+            <a href="../index.html">INÍCIO</a> |
+            <a href="categoria.html?tipo=roupas">ROUPAS</a> |
+            <span data-breadcrumb-name></span>
+          </p>
+          <h1 data-product-title></h1>
+          <p class="detail-price" data-product-price></p>
+          <p class="installments" data-product-installments></p>
+          <p class="shipping-note">
+            Frete grátis a partir de R$299.00 para toda região sul
+          </p>
 
-           <!-- Botão de favorito do produto: controla `currentUser.favorites` isoladamente usando `data-favorite-product`. -->
-        <button class="favorite-wide" type="button" data-favorite-product>
-          <span data-fav-label>SALVAR COMO FAVORITOS</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24">
-            <path
-              d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
-          </svg>
-        </button>
-      </div>
-    </section>
-  </main>
+          <fieldset class="size-field">
+            <legend>Tamanhos</legend>
+            <div class="size-options">
+              <button type="button" data-size>P</button>
+              <button type="button" data-size>M</button>
+              <button type="button" data-size>G</button>
+              <button type="button" data-size>GG</button>
+            </div>
+          </fieldset>
 
-  <site-footer></site-footer>
+          <div class="buy-row">
+            <div class="quantity-control" aria-label="Quantidade">
+              <button
+                type="button"
+                data-qty-minus
+                aria-label="Diminuir quantidade"
+              >
+                −
+              </button>
+              <span data-qty-value>1</span>
+              <button
+                type="button"
+                data-qty-plus
+                aria-label="Aumentar quantidade"
+              >
+                +
+              </button>
+            </div>
+            <button class="buy-button" type="button" data-add-to-cart>
+              COMPRAR
+            </button>
+          </div>
 
-  <script type="module" src="../main.js"></script>
-  <script type="module">
-    import { findProductById } from '../js/catalog.js';
+          <!-- Botão de favorito do produto: controla `currentUser.favorites` isoladamente usando `data-favorite-product`. -->
+          <button class="favorite-wide" type="button" data-favorite-product>
+            <span data-fav-label>SALVAR COMO FAVORITOS</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path
+                d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+    </main>
 
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get('id');
-    const product = productId ? findProductById(productId) : null;
+    <site-footer></site-footer>
 
-    if (!product) {
-      console.warn('Produto não encontrado. Redirecionando...');
-      window.location.href = 'index.html';
-    } else {
-      document.title = `${product.title} | Bensa StreetWear`;
+    <script type="module" src="../main.js"></script>
+    <script type="module">
+      import { findProductById } from "../js/catalog.js";
 
-      const img = document.querySelector('.product-gallery img');
-      if (img) { img.src = product.image; img.alt = product.title; }
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+      const product = productId ? findProductById(productId) : null;
 
-      const nameEl = document.querySelector('[data-product-title]');
-      const bcEl = document.querySelector('[data-breadcrumb-name]');
-      const priceEl = document.querySelector('[data-product-price]');
-      const instEl = document.querySelector('[data-product-installments]');
+      if (!product) {
+        console.warn("Produto não encontrado. Redirecionando...");
+        window.location.href = "../index.html";
+      } else {
+        document.title = `${product.title} | Bensa StreetWear`;
 
-      if (nameEl) nameEl.textContent = product.title;
-      if (bcEl) bcEl.textContent = product.title.toUpperCase();
-      if (priceEl) priceEl.textContent = window.formatPrice(product.price);
-      if (instEl) instEl.textContent = `3 X De ${window.formatPrice(product.price / 3)} Sem Juros`;
-
-      // Favorito: alterna presença em `currentUser.favorites`. Requer autenticação.
-      const favBtn = document.querySelector('[data-favorite-product]');
-      const favLabel = document.querySelector('[data-fav-label]');
-
-      function getFavorites() {
-        const u = JSON.parse(localStorage.getItem('currentUser') || 'null');
-        return u?.favorites ?? [];
-      }
-
-      function updateFavBtn() {
-        const isFav = getFavorites().some(f => f.id === product.id);
-        favBtn?.classList.toggle('is-active', isFav);
-        if (favLabel) favLabel.textContent = isFav ? 'SALVO NOS FAVORITOS' : 'SALVAR COMO FAVORITOS';
-      }
-
-      updateFavBtn();
-
-      favBtn?.addEventListener('click', () => {
-        if (!localStorage.getItem('isLoggedIn')) {
-          window.location.href = 'login.html';
-          return;
+        const img = document.querySelector(".product-gallery img");
+        if (img) {
+          img.src = product.image;
+          img.alt = product.title;
         }
 
-        const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        user.favorites = user.favorites ?? [];
-        const idx = user.favorites.findIndex(f => f.id === product.id);
+        const nameEl = document.querySelector("[data-product-title]");
+        const bcEl = document.querySelector("[data-breadcrumb-name]");
+        const priceEl = document.querySelector("[data-product-price]");
+        const instEl = document.querySelector("[data-product-installments]");
 
-        if (idx !== -1) {
-          user.favorites.splice(idx, 1);
-        } else {
-          user.favorites.push({
-            id: product.id,
-            title: product.title,
-            price: product.price,
-            image: product.image,
-          });
+        if (nameEl) nameEl.textContent = product.title;
+        if (bcEl) bcEl.textContent = product.title.toUpperCase();
+        if (priceEl) priceEl.textContent = window.formatPrice(product.price);
+        if (instEl)
+          instEl.textContent = `3 X De ${window.formatPrice(product.price / 3)} Sem Juros`;
+
+        // Favorito: alterna presença em `currentUser.favorites`. Requer autenticação.
+        const favBtn = document.querySelector("[data-favorite-product]");
+        const favLabel = document.querySelector("[data-fav-label]");
+
+        function getFavorites() {
+          const u = JSON.parse(localStorage.getItem("currentUser") || "null");
+          return u?.favorites ?? [];
         }
 
-        localStorage.setItem('currentUser', JSON.stringify(user));
-
-        const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-        const ui = users.findIndex(u => u.email === user.email);
-        if (ui !== -1) { users[ui] = user; localStorage.setItem('registeredUsers', JSON.stringify(users)); }
+        function updateFavBtn() {
+          const isFav = getFavorites().some((f) => f.id === product.id);
+          favBtn?.classList.toggle("is-active", isFav);
+          if (favLabel)
+            favLabel.textContent = isFav
+              ? "SALVO NOS FAVORITOS"
+              : "SALVAR COMO FAVORITOS";
+        }
 
         updateFavBtn();
-      });
-    }
 
-    // Pequeno atraso para garantir que `cartState` (registrado por `cart-overlay`) esteja disponível
-    // antes de anexar handlers que o utilizam; evita usar DOMContentLoaded dentro de módulos.
-    setTimeout(() => {
-      document.addEventListener('click', (e) => {
-        const t = e.target;
-
-        if (t.closest('[data-qty-plus]')) {
-          const span = document.querySelector('[data-qty-value]');
-          if (span) span.textContent = Number(span.textContent) + 1;
-        }
-
-        if (t.closest('[data-qty-minus]')) {
-          const span = document.querySelector('[data-qty-value]');
-          if (span) span.textContent = Math.max(1, Number(span.textContent) - 1);
-        }
-
-        if (t.closest('[data-add-to-cart]') && product) {
-          const qty = Number(document.querySelector('[data-qty-value]')?.textContent || 1);
-          const sizeActive = document.querySelector('[data-size].is-active');
-          const item = {
-            ...product,
-            size: sizeActive?.textContent || 'Único',
-            qty: 1,
-          };
-
-          for (let i = 0; i < qty; i++) {
-            window.cartState?.add(item);
+        favBtn?.addEventListener("click", () => {
+          if (!localStorage.getItem("isLoggedIn")) {
+            window.location.href = "login.html";
+            return;
           }
 
-          document.querySelector('cart-overlay')?._open();
-        }
-      });
-    }, 0);
-  </script>
-</body>
+          const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
+          user.favorites = user.favorites ?? [];
+          const idx = user.favorites.findIndex((f) => f.id === product.id);
 
+          if (idx !== -1) {
+            user.favorites.splice(idx, 1);
+          } else {
+            user.favorites.push({
+              id: product.id,
+              title: product.title,
+              price: product.price,
+              image: product.image,
+            });
+          }
+
+          localStorage.setItem("currentUser", JSON.stringify(user));
+
+          const users = JSON.parse(
+            localStorage.getItem("registeredUsers") || "[]",
+          );
+          const ui = users.findIndex((u) => u.email === user.email);
+          if (ui !== -1) {
+            users[ui] = user;
+            localStorage.setItem("registeredUsers", JSON.stringify(users));
+          }
+
+          updateFavBtn();
+        });
+      }
+
+      // Pequeno atraso para garantir que `cartState` (registrado por `cart-overlay`) esteja disponível
+      // antes de anexar handlers que o utilizam; evita usar DOMContentLoaded dentro de módulos.
+      setTimeout(() => {
+        document.addEventListener("click", (e) => {
+          const t = e.target;
+
+          if (t.closest("[data-qty-plus]")) {
+            const span = document.querySelector("[data-qty-value]");
+            if (span) span.textContent = Number(span.textContent) + 1;
+          }
+
+          if (t.closest("[data-qty-minus]")) {
+            const span = document.querySelector("[data-qty-value]");
+            if (span)
+              span.textContent = Math.max(1, Number(span.textContent) - 1);
+          }
+
+          if (t.closest("[data-add-to-cart]") && product) {
+            const qty = Number(
+              document.querySelector("[data-qty-value]")?.textContent || 1,
+            );
+            const sizeActive = document.querySelector("[data-size].is-active");
+            const item = {
+              ...product,
+              size: sizeActive?.textContent || "Único",
+              qty: 1,
+            };
+
+            for (let i = 0; i < qty; i++) {
+              window.cartState?.add(item);
+            }
+
+            document.querySelector("cart-overlay")?._open();
+          }
+        });
+      }, 0);
+    </script>
+  </body>
 </html>
