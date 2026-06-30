@@ -269,6 +269,8 @@
       // Busca de CEP dentro do modal — valida e mostra mensagens de erro no modal
       const cepInput = modal.querySelector('#edit-cep');
       const addressInput = modal.querySelector('#edit-address');
+      const neighborhoodInput = modal.querySelector('#edit-neighborhood');
+      const cityInput = modal.querySelector('#edit-city');
       const searchBtn = modal.querySelector('[data-cep-search]');
 
       // Formatar CEP enquanto digita
@@ -293,12 +295,15 @@
         try {
           const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
           const data = await res.json();
+          console.log(data)
           if (data.erro) {
             cepEl.textContent = 'CEP não encontrado.';
             cepEl.classList.add('is-visible');
             return;
           }
           addressInput.value = data.logradouro || '';
+          neighborhoodInput.value = data.bairro || '';
+          cityInput.value = data.localidade || ''
         } catch {
           cepEl.textContent = 'Erro ao buscar CEP.';
           cepEl.classList.add('is-visible');
@@ -327,8 +332,8 @@
         const cep = cepInput.value.replace(/\D/g, '');
         const address = addressInput.value.trim();
         // Lê `neighborhood` e `city` do formulário para manter compatibilidade com cadastros antigos
-        const neighborhood = modal.querySelector('#edit-neighborhood')?.value.trim() ?? '';
-        const city = modal.querySelector('#edit-city')?.value.trim() ?? '';
+        const neighborhood = neighborhoodInput.value.trim();
+        const city = cityInput.value.trim();
         const newPassword = form.querySelector('#edit-new-password').value;
         const confirmPassword = form.querySelector('#edit-confirm-password').value;
 
