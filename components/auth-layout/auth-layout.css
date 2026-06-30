@@ -313,10 +313,31 @@
     .auth-login .auth-photo {
         order: 2;
     }
+
+    .cep-input-group input,
+    .cep-input-group button,
+    .address-row input {
+        height: 60px;
+        font-size: 16px;
+    }
+
+    .address-row label {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .address-row input {
+        margin-bottom: 24px;
+    }
+
+    .cep-input-group {
+        margin-bottom: 24px;
+    }
 }
 
 @media (max-width: 768px) {
-    .auth-screen {
+    .auth-screen,
+    .auth-screen:has(.auth-register) {
         padding: 20px;
     }
 
@@ -338,7 +359,8 @@
         height: 54px;
     }
 
-    .auth-screen {
+    .auth-screen,
+    .auth-screen:has(.auth-register) {
         padding: 22px;
     }
 
@@ -359,5 +381,65 @@
         right: 28px;
         bottom: 38px;
         font-size: 18px;
+    }
+
+    .cep-input-group {
+        grid-template-columns: 1fr;
+    }
+
+    .cep-input-group button {
+        width: 100%;
+    }
+
+    .address-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .address-row input {
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-screen,
+    .auth-screen:has(.auth-register) {
+        padding: 0;
+    }
+
+    .auth-card {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .auth-form {
+        padding: 36px 20px;
+    }
+
+    .auth-logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+
+    .auth-form h1 {
+        font-size: 26px;
+    }
+
+    .auth-photo {
+        min-height: 220px;
+    }
+
+    .auth-photo p {
+        font-size: 15px;
+        bottom: 24px;
+    }
+
+    .cep-input-group input,
+    .cep-input-group button,
+    .address-row input {
+        height: 54px;
+        font-size: 15px;
+        padding: 0 16px;
     }
 }
