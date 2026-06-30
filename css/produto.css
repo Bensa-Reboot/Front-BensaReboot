@@ -1,5 +1,5 @@
 .product-page {
-  padding: 40px 0 128px;
+  padding: 40px 75px 128px 0;
 }
 
 .product-detail {
@@ -218,13 +218,16 @@
 
 /* Media queries do produto: ajustam layout e espaçamento em larguras menores. */
 @media (max-width: 1200px) {
+  .product-page {
+    padding: 40px 50px 128px 0;
+  }
   .product-detail {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
     gap: 32px;
   }
 
   .product-info {
-    padding: 40px 16px 0 0;
+    padding: 0 0 0 30px;
     min-width: 0;
   }
 
@@ -289,6 +292,17 @@
   }
 
   .buy-row {
-    grid-template-columns: 1fr;
+    flex-direction: column;   /* empilha quantidade e botão comprar */
+  }
+
+  .quantity-control {
+    flex: 1 1 auto;
+    max-width: none;
+    width: 100%;              /* ocupa a largura toda */
+  }
+
+  .buy-button {
+    width: 100%;
+    padding: 30px 0;          /* botão comprar ocupa a largura toda */
   }
 }
