@@ -219,7 +219,7 @@
 /* Media queries do produto: ajustam layout e espaçamento em larguras menores. */
 @media (max-width: 1200px) {
   .product-page {
-    padding: 40px 50px 128px 0;
+    padding: 40px 40px 128px 0;
   }
   .product-detail {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
@@ -227,7 +227,7 @@
   }
 
   .product-info {
-    padding: 0 0 0 30px;
+    padding: 0 0 0 40px;
     min-width: 0;
   }
 
@@ -258,19 +258,19 @@
 @media (max-width: 1024px) {
   .product-detail {
     grid-template-columns: 1fr;
-    gap: 20px;
   }
 
   .product-gallery {
     min-height: 500px;
+    margin-left: 45px;
   }
+
 
   .product-info {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
   }
 
 }
