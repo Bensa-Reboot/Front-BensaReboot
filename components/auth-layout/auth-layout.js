@@ -1,8 +1,10 @@
+const inPages = window.location.pathname.includes("/pages/");
+const homeHref = inPages ? "../index.html" : "index.html";
+const checkoutHref = inPages ? "checkout.html" : "pages/checkout.html";
+
 class AuthLayout extends HTMLElement {
   connectedCallback() {
-    const inPages = window.location.pathname.includes("/pages/");
-    const homeHref = inPages ? "../index.html" : "index.html";
-    const checkoutHref = inPages ? "checkout.html" : "pages/checkout.html";
+    
 
     if (localStorage.getItem("isLoggedIn") === "true") {
       // Preserva `?redirect=checkout` quando o usuário já está autenticado
@@ -136,6 +138,7 @@ class AuthLayout extends HTMLElement {
       try {
         const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await res.json();
+        console.log(data)
         if (data.erro) {
           this._setError(cepEl, "CEP não encontrado.");
           return;
